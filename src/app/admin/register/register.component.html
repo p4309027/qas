@@ -1,0 +1,22 @@
+
+  <form [formGroup]="registerForm" (ngSubmit)="onRegister()" novalidate fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
+    <mat-form-field>
+      <input formControlName="firstName" placeholder="first name" matInput>
+    </mat-form-field>
+    <mat-form-field>
+      <input formControlName="lastName" placeholder="last name" matInput>
+    </mat-form-field>
+    <mat-form-field>
+      <input type="email" formControlName="email" placeholder="email address" matInput>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select formControlName="userRole" placeholder="user role">
+        <mat-option>--</mat-option>
+        <mat-option *ngFor="let role of roles" [value]="role">
+          {{ role }}
+        </mat-option>
+      </mat-select>
+      <mat-error >Please select a role</mat-error>
+    </mat-form-field>
+    <button type="submit" mat-raised-button color="accent" [disabled]="registerForm.invalid">Register</button>
+  </form>

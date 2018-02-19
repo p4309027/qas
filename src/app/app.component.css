@@ -1,0 +1,14 @@
+.content {
+  margin-top: 100px; /* original size of toolbar 64px */
+}
+
+/* this styles are just for copyright*/
+#copyright {
+  padding: 10px;
+  font-size: small;
+  color: #979797;
+  z-index: 9999;
+  left: 0;
+  bottom: 0;
+  position: absolute;
+}

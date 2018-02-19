@@ -1,0 +1,25 @@
+<mat-toolbar color="primary" class="mat-elevation-z6">
+  <a>Abfad Ltd.</a>
+  <!-- This fills the remaining space of the current row -->
+  <span class="fill-remaining-space"></span>
+  <a mat-button >
+      <mat-icon >exit_to_app</mat-icon> Logout
+  </a>
+  <a mat-button [matMenuTriggerFor]="menu">
+    <mat-icon >menu</mat-icon> Menu
+  </a>
+</mat-toolbar>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item>
+    <mat-icon>grain</mat-icon>
+    <span >Services</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>business_center</mat-icon>
+    <span >Projets</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon >account_circle</mat-icon>
+    <span >Profile</span>
+  </button>
+</mat-menu>

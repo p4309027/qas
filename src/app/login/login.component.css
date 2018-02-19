@@ -1,0 +1,26 @@
+.login-card {
+  width: 500px;
+  margin: auto;
+}
+
+.login-header-image {
+  background-image: url('/assets/logo.png');
+  background-size: cover;
+}
+
+mat-form-field {
+  width: 400px;
+}
+
+mat-form-field input{
+  font-size: 1rem;
+}
+
+@media (max-width: 550px) {
+  .login-card {
+    width: 300px;
+  }
+  mat-form-field {
+    width: 100%;
+  }
+}
