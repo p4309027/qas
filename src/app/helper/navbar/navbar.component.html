@@ -1,13 +1,14 @@
 <mat-toolbar color="primary" class="mat-elevation-z6">
   <a>Abfad Ltd.</a>
-  <!-- This fills the remaining space of the current row -->
   <span class="fill-remaining-space"></span>
-  <a mat-button >
-      <mat-icon >exit_to_app</mat-icon> Logout
-  </a>
-  <a mat-button [matMenuTriggerFor]="menu">
-    <mat-icon >menu</mat-icon> Menu
-  </a>
+  <div *ngIf="isLoggedIn">
+    <a mat-button (click)="onLogout()">
+        <mat-icon >exit_to_app</mat-icon> Logout
+    </a>
+    <a mat-button [matMenuTriggerFor]="menu">
+      <mat-icon >menu</mat-icon> Menu
+    </a>
+  </div>
 </mat-toolbar>
 <mat-menu #menu="matMenu">
   <button mat-menu-item>

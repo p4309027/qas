@@ -5,21 +5,27 @@
     <mat-card-subtitle>Please login to use the system</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <form
-      fxLayout="column"
+    <form *ngIf="next"
       fxLayoutAlign="center center"
       fxLayoutGap="20px"
-      [formGroup]="loginForm"
-      (ngSubmit)="onLogin()">
+      [formGroup]="usernameCheckForm"
+      (ngSubmit)="onNext(usernameCheckForm.value.email)">
       <mat-form-field>
         <input
           type="email"
           matInput
           placeholder="Your email"
           formControlName="email">
-        <mat-hint *ngIf="!loginForm.value.email">Please enter a valid email.</mat-hint>
+        <mat-hint *ngIf="!usernameCheckForm.value.email">Please enter a valid email.</mat-hint>
         <mat-error>Invalid or missing email.</mat-error>
       </mat-form-field>
+      <button type="submit" mat-raised-button color="accent" [disabled]="usernameCheckForm.invalid">Next</button>
+    </form>
+    <form *ngIf="!next"
+      fxLayoutAlign="center center"
+      fxLayoutGap="20px"
+      [formGroup]="loginForm"
+      (ngSubmit)="onLogin(loginForm.value.password)">
       <mat-form-field>
         <input
           type="password"
@@ -27,14 +33,10 @@
           placeholder="Your password"
           formControlName="password">
         <mat-hint *ngIf="!loginForm.value.password">Please enter your password.</mat-hint>
-        <mat-error>Missing password.</mat-error>
+        <mat-hint align="end"><b>{{ loginForm.value.password?.length }} / 6</b></mat-hint>
+        <mat-error>Should be at least 6 characters long.</mat-error>
       </mat-form-field>
-      <div fxLayoutGap="10px"> </div>
       <button type="submit" mat-raised-button color="accent" [disabled]="loginForm.invalid">Login</button>
     </form>
   </mat-card-content>
-  <!-- <mat-card-actions fxLayout="column"
-  fxLayoutAlign="center center">
-    <button type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid" (click)="onLogin()">Login</button>
-  </mat-card-actions> -->
 </mat-card>

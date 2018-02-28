@@ -11,7 +11,7 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   roles = [ 'admin', 'project manager', 'engineer' ];
 
-  constructor( private fb: FormBuilder, private adminService: AdminService) {
+  constructor( private fb: FormBuilder) {
     this.createRegisterForm();
   }
 
@@ -24,9 +24,7 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  onRegister() {
-    this.adminService.register(this.registerForm.value);
-  }
+  onRegister() {}
 
   ngOnInit() {
   }

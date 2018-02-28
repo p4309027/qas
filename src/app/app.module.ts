@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -22,6 +23,8 @@ import { VideosComponent } from './project/videos/videos.component';
 import { AdminComponent } from './admin/admin.component';
 import { UserComponent } from './user/user.component';
 import { AdminService } from './admin/admin.service';
+import { AppService } from './app.service';
+import { LoginService } from './login/login.service';
 
 
 @NgModule({
@@ -47,9 +50,10 @@ import { AdminService } from './admin/admin.service';
     FlexLayoutModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFireAuthModule
   ],
-  providers: [AdminService],
+  providers: [AdminService, AppService, LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
