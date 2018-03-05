@@ -1,25 +1,35 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoginService } from './../../login/login.service';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
+import { AppService } from './../../app.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   isLoggedIn: Boolean = false;
+  private ngUnsubscribe: Subject<any> = new Subject();
 
-  constructor( private loginService: LoginService) {
-    this.loginService.isAuthenticated.subscribe(
-      data => this.isLoggedIn = data
-    );
-  }
+  constructor( private appService: AppService, private loginService: LoginService) {}
 
   onLogout() {
     this.loginService.logout();
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.appService.isAuthenticated
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(
+        data => this.isLoggedIn = data
+      );
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
 
 }

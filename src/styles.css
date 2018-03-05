@@ -1,14 +1,19 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+html {
+  /* for sticky footer*/
+  height: 100%;
+}
+
 body {
   font-size: 100%;
+  /* for sticky footer*/
+  /* adjust the height by removing
+     <html> generated 8px margin at the top and bottom
+  */
+  height: calc(100% - 16px);
 }
 
-app-navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
+.user-card mat-card-content {
+  width: 100%;
 }
-

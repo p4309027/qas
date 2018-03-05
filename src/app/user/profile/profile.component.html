@@ -1,3 +1,26 @@
-<p>
-  profile works!
-</p>
+<mat-card class="user-card">
+  <mat-card-title>Profile details</mat-card-title>
+  <form [formGroup]="profileForm" (ngSubmit)="onSave()" fxLayout="column wrap" fxLayoutAlign="center center">
+    <mat-card-content fxLayout="column" fxLayoutGap="20px">
+      <mat-form-field>
+        <input formControlName="firstName" matInput placeholder="Name">
+      </mat-form-field>
+      <mat-form-field>
+        <input formControlName="lastName" matInput placeholder="Surname">
+      </mat-form-field>
+      <mat-form-field>
+        <input formControlName="email" matInput placeholder="Username">
+      </mat-form-field>
+      <mat-form-field>
+        <input formControlName="role" matInput  placeholder="Role">
+      </mat-form-field>
+      <mat-form-field>
+        <input formControlName="projects" matInput  placeholder="List of taken projects">
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions fxLayout fxLayoutGap="20px">
+      <button *ngIf="isDisabled" mat-button color="primary" (click)="onUpdate()">UPDATE</button>
+      <button *ngIf="!isDisabled" mat-button color="warn" type="submit">SAVE</button>
+    </mat-card-actions>
+  </form>
+</mat-card>

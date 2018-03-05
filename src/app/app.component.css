@@ -1,14 +1,23 @@
-.content {
-  margin-top: 100px; /* original size of toolbar 64px */
+#main {
+  /* for sticky footer*/
+  min-height: 100%;
 }
 
-/* this styles are just for copyright*/
+app-navbar {
+  /* remove 8px margins from top, left and right
+     to cover the header with navbar
+  */
+  margin: -8px -8px 50px;
+}
+
 #copyright {
-  padding: 10px;
+  margin-top: 30px;
   font-size: small;
   color: #979797;
-  z-index: 9999;
-  left: 0;
-  bottom: 0;
-  position: absolute;
+  /* to keep consistency of the 'copyright' message
+     match & remove default <html> element generated margin
+     then place padding
+  */
+  margin-bottom: -8px;
+  padding-bottom: 8px;
 }

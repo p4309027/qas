@@ -1,16 +1,46 @@
-import { UserAuthData } from './../helper/models/user-auth-data.model';
+import { UserAuthData } from './../helper/models/user.model';
 import { LoginService } from './login.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  animations: [
+    trigger('flyInOut', [
+      state('in', style({opacity: 1, transform: 'translateX(0)'})),
+      transition('void => *', [
+        style({
+          opacity: 0,
+          transform: 'translateX(-100%)'
+        }),
+        animate('.3s .7s ease-out')
+      ]),
+      transition('* => void', [
+        style({ marginBottom: (window.innerWidth > 599) ? '-59px' : '-115px' }),
+        animate('.3s ease-in', style({
+          opacity: 0,
+          transform: 'translateX(100%)'
+        }))
+      ])
+    ])
+  ]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
+
   usernameCheckForm: FormGroup;
   loginForm: FormGroup;
+  private ngUnsubscribe: Subject<any> = new Subject();
   userAuthData: UserAuthData;
   next = true;
   userExists = true;
@@ -29,18 +59,20 @@ export class LoginComponent implements OnInit {
   }
 
   onNext(username) {
-    this.loginService.checkUsername(username).subscribe((result: Array<any>) => {
-      if (result[0] === undefined) {
-        this.userExists = false;
-        this.loginService.createNewUser(username)
-          .then(() => {
-            this.next = false;
-          });
-      } else if (result[0].email === username) {
-        this.next = false;
-      } else {
-        console.log(result);
-      }
+    this.loginService.checkUsername(username)
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((result: Array<any>) => {
+        if (result[0] === undefined) {
+          this.userExists = false;
+          this.loginService.createNewUser(username)
+            .then(() => {
+              this.next = false;
+            });
+        } else if (result[0].email === username) {
+          this.next = false;
+        } else {
+          console.log(result);
+        }
     });
   }
 
@@ -57,6 +89,11 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
 }

@@ -1,11 +1,16 @@
 .login-card {
   width: 500px;
   margin: auto;
+  overflow: hidden;
 }
 
 .login-header-image {
   background-image: url('/assets/logo.png');
   background-size: cover;
+}
+
+mat-card-header {
+  margin-bottom: 1em;
 }
 
 mat-form-field {

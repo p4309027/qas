@@ -1,0 +1,22 @@
+app-profile, app-contact {
+  width: 50%;
+  max-width: 700px;
+}
+
+@media (max-width: 599px) {
+  app-profile, app-contact {
+    width: 100%;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 959px) {
+  app-profile, app-contact {
+    padding: 1em;
+  }
+}
+
+@media (min-width: 960px) {
+  app-profile, app-contact {
+    padding: 2em;
+  }
+}

@@ -1,5 +1,7 @@
-<app-navbar></app-navbar>
-<div class="content">
-  <router-outlet></router-outlet>
+<div id="main" fxLayout="column">
+  <app-navbar></app-navbar>
+  <div fxFlex="1" >
+    <router-outlet></router-outlet>
+  </div>
+  <div id="copyright" [innerHTML]="p4309027"></div>
 </div>
-<div id="copyright" [innerHTML]="p4309027"></div>

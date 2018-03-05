@@ -25,6 +25,8 @@ import { UserComponent } from './user/user.component';
 import { AdminService } from './admin/admin.service';
 import { AppService } from './app.service';
 import { LoginService } from './login/login.service';
+import { UserService } from './user/user.service';
+import { ContactComponent } from './user/contact/contact.component';
 
 
 @NgModule({
@@ -40,7 +42,8 @@ import { LoginService } from './login/login.service';
     MessagesComponent,
     VideosComponent,
     AdminComponent,
-    UserComponent
+    UserComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,7 @@ import { LoginService } from './login/login.service';
     AngularFirestoreModule,
     AngularFireAuthModule
   ],
-  providers: [AdminService, AppService, LoginService],
+  providers: [AppService, LoginService, UserService, AdminService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
