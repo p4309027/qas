@@ -14,7 +14,7 @@ export class ContactComponent implements OnInit, OnDestroy {
   contactForm: FormGroup;
   isDisabled = true;
   private ngUnsubscribe: Subject<any> = new Subject();
-  currentUserEmail: string;
+  currentUserContact = {};
   userDbId: string;
 
   constructor(
@@ -51,6 +51,11 @@ export class ContactComponent implements OnInit, OnDestroy {
   }
 
   onSave() {
+    this.userService.updateUserContact(this.userDbId, this.contactForm.value)
+      .then(result => {})
+      .catch(error => {
+        console.log(error);
+    });
     this.toggle();
   }
 
@@ -59,6 +64,19 @@ export class ContactComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.userService.currentUser
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(data => {
+        this.userDbId = data.id;
+        this.currentUserContact = {
+          email: data.data().email,
+          address: data.data().contact.address,
+          city: data.data().contact.city,
+          country: data.data().contact.country,
+          phone: data.data().contact.phone
+        };
+        this.contactForm.patchValue(this.currentUserContact);
+    });
   }
 
   ngOnDestroy() {

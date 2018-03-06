@@ -14,7 +14,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   profileForm: FormGroup;
   isDisabled = true;
   private ngUnsubscribe: Subject<any> = new Subject();
-  currentUserEmail: string;
+  currentUser = {};
   userDbId: string;
 
   constructor(
@@ -60,28 +60,23 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // get the user's email address
-    this.appService.currentUserUsername
+    // 'user component' will request user profile object via 'user service'
+    // then 'user service' will get the data and triggers 'currentUser' Subject
+    // the 'profile component' will listen to 'currentUser' Subject
+    // and update user's profile form in the view
+    this.userService.currentUser
       .takeUntil(this.ngUnsubscribe)
-      .subscribe(email => this.currentUserEmail = email);
-
-    // get user's profile details using the user's email address
-    // then update user's profile form in the view
-    this.userService.getUserProfile(this.currentUserEmail)
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(
-        data => {
-          this.userDbId = data[0].payload.doc.id;
-          this.profileForm.patchValue({
-            firstName: data[0].payload.doc.data().firstName,
-            lastName: data[0].payload.doc.data().lastName,
-            email: data[0].payload.doc.data().email,
-            role: data[0].payload.doc.data().role,
-            projects: data[0].payload.doc.data().projects
-          });
-        },
-        err => console.log(err)
-      );
+      .subscribe(data => {
+        this.userDbId = data.id;
+        this.currentUser = {
+          firstName: data.data().firstName,
+          lastName: data.data().lastName,
+          email: data.data().email,
+          role: data.data().role,
+          projects: data.data().projects
+        };
+        this.profileForm.patchValue(this.currentUser);
+      });
   }
 
   ngOnDestroy() {
