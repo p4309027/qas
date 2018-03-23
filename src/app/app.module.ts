@@ -27,6 +27,7 @@ import { AppService } from './app.service';
 import { LoginService } from './login/login.service';
 import { UserService } from './user/user.service';
 import { ContactComponent } from './user/contact/contact.component';
+import { CompanyServicesComponent } from './company-services/company-services.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { ContactComponent } from './user/contact/contact.component';
     VideosComponent,
     AdminComponent,
     UserComponent,
-    ContactComponent
+    ContactComponent,
+    CompanyServicesComponent
   ],
   imports: [
     BrowserModule,
