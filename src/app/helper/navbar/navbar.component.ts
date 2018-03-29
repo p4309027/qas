@@ -10,7 +10,7 @@ import { AppService } from './../../app.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-  isLoggedIn: Boolean = true; // <- change this to false for production or testing
+  isLoggedIn = false;
   private ngUnsubscribe: Subject<any> = new Subject();
 
   constructor( private appService: AppService, private loginService: LoginService) {}

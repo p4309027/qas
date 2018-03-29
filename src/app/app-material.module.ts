@@ -7,7 +7,8 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatSelectModule,
-  MatCardModule
+  MatCardModule,
+  MatExpansionModule
 } from '@angular/material';
 
 const appMaterialModules: any[] = [
@@ -18,7 +19,8 @@ const appMaterialModules: any[] = [
   MatFormFieldModule,
   MatInputModule,
   MatSelectModule,
-  MatCardModule
+  MatCardModule,
+  MatExpansionModule
 ];
 
 @NgModule({
