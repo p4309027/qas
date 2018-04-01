@@ -24,8 +24,10 @@ export class ManageServicesComponent implements OnInit {
   createForms() {
     this.servicesForm = this.fb.group({
       name: '',
+      description: '',
       img: '',
-      info: ''
+      info: '',
+      moreInfo: ''
     });
   }
 

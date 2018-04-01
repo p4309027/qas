@@ -24,7 +24,7 @@ export class LoginService {
       firstName: '',
       lastName: '',
       email: username,
-      role: 'new starter',
+      role: 'roles vary based on projects',
       projects: 'to be confirmed'
     });
  }

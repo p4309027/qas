@@ -3,26 +3,38 @@
   <div fxFlex="70%" fxFlex.xs="100%">
     <mat-card>
       <mat-card-title>
-        <h3>Add a new company service</h3>
+        <h3>
+          <mat-icon>grain &nbsp;</mat-icon>
+           Add a new company service
+        </h3>
       </mat-card-title>
       <form [formGroup]="servicesForm"
-        fxLayout="column"
+        fxLayout="column" 
         (ngSubmit)="onSave()">
         <mat-form-field >
           <input matInput placeholder="Name" formControlName="name">
         </mat-form-field>
         <mat-form-field >
+          <input matInput placeholder="Description" formControlName="description">
+        </mat-form-field>
+        <mat-form-field >
           <input matInput placeholder="Image name" formControlName="img">
           <span  matSuffix>.jpg </span>
         </mat-form-field>
-        <mat-form-field style="margin-bottom:20px">
+        <mat-form-field>
           <textarea matInput placeholder="Details" 
             formControlName="info"></textarea>
         </mat-form-field>
-        <button type="submit" mat-raised-button color="accent">Save</button>
+        <mat-form-field style="margin-bottom:20px">
+          <textarea matInput placeholder="More details" 
+            formControlName="moreInfo"></textarea>
+        </mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="space-evenly center">
+          <button type="submit" mat-raised-button color="accent">Save</button>
+        </div>
       </form>
     </mat-card>
-    <br>
+    <br><br>
     <h3>Current Services</h3>
     <mat-list>      
       <mat-list-item *ngFor="let service of services">

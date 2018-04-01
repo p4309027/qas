@@ -9,7 +9,7 @@
           {{service.name}}
         </mat-panel-title>
         <mat-panel-description fxFlex="60">
-          {{service.name}} service info
+          {{service.description}}
         </mat-panel-description>
       </mat-expansion-panel-header>
       <div fxLayout="row" fxLayout.lt-sm="column">
@@ -17,7 +17,8 @@
             <img src="assets/company-services/{{service.img}}.jpg" alt="{{service.name}}" >
           </div>
           <div fxFlex="60" class="info">
-            {{service.info}}
+            <p>{{service.info}}</p>
+            <p>{{service.moreInfo}}</p>
           </div>
       </div>
       <mat-action-row>

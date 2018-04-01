@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-company-services',
@@ -7,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CompanyServicesComponent implements OnInit {
   step = 0;
-  services = [
+  services = [];
+  servicestest = [
     {
       name: 'Rope Access',
       img: 'Rope_Access',
@@ -78,7 +80,7 @@ export class CompanyServicesComponent implements OnInit {
     }
   ];
 
-  constructor() { }
+  constructor(private appService: AppService) { }
 
   setStep(index: number) {
     this.step = index;
@@ -93,6 +95,8 @@ export class CompanyServicesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.appService.getCompanyServices()
+      .subscribe(data => this.services = data);
   }
 
 }

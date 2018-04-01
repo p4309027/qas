@@ -18,6 +18,8 @@ export class AppService {
   }
 
   getCompanyServices() {
-    return this.afs.collection('services').valueChanges();
+    return this.afs.collection(
+        'services', ref => ref.orderBy('createdAt', 'asc')
+      ).valueChanges();
   }
 }
