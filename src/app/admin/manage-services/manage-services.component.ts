@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { AdminService } from '../admin.service';
+import { AppService } from '../../app.service';
 
 @Component({
   selector: 'app-manage-services',
@@ -8,9 +10,14 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class ManageServicesComponent implements OnInit {
 
+  services = [];
   servicesForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private appService: AppService,
+    private adminService: AdminService
+  ) {
     this.createForms();
   }
 
@@ -22,11 +29,18 @@ export class ManageServicesComponent implements OnInit {
     });
   }
 
+  getServices() {
+    this.appService.getCompanyServices()
+      .subscribe(data => this.services = data);
+  }
+
   onSave() {
-    console.log(this.servicesForm.value);
+    this.adminService.saveServices(this.servicesForm.value)
+      .then(d => this.servicesForm.reset());
   }
 
   ngOnInit() {
+    this.getServices();
   }
 
 }
