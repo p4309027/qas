@@ -14,7 +14,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './helper/navbar/navbar.component';
 import { ModalComponent } from './helper/modal/modal.component';
-import { ProjectsComponent } from './admin/projects/projects.component';
 import { ProfileComponent } from './user/profile/profile.component';
 import { ProjectComponent } from './project/project.component';
 import { MessagesComponent } from './project/messages/messages.component';
@@ -28,6 +27,7 @@ import { UserService } from './user/user.service';
 import { ContactComponent } from './user/contact/contact.component';
 import { CompanyServicesComponent } from './company-services/company-services.component';
 import { ManageServicesComponent } from './admin/manage-services/manage-services.component';
+import { ManageProjectsComponent } from './admin/manage-projects/manage-projects.component';
 
 
 @NgModule({
@@ -36,7 +36,6 @@ import { ManageServicesComponent } from './admin/manage-services/manage-services
     LoginComponent,
     NavbarComponent,
     ModalComponent,
-    ProjectsComponent,
     ProfileComponent,
     ProjectComponent,
     MessagesComponent,
@@ -45,7 +44,8 @@ import { ManageServicesComponent } from './admin/manage-services/manage-services
     UserComponent,
     ContactComponent,
     CompanyServicesComponent,
-    ManageServicesComponent
+    ManageServicesComponent,
+    ManageProjectsComponent
   ],
   imports: [
     BrowserModule,

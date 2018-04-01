@@ -14,8 +14,8 @@ body {
   height: calc(100% - 16px);
 }
 
-h1, h2, h3, h4, h5, h6, p {
-  font-family: Roboto,"Helvetica Neue",sans-serif;
+* {
+  font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
 }
 
 .user-card mat-card-content {
