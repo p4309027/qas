@@ -14,7 +14,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './helper/navbar/navbar.component';
 import { ModalComponent } from './helper/modal/modal.component';
-import { RegisterComponent } from './admin/register/register.component';
 import { ProjectsComponent } from './admin/projects/projects.component';
 import { ProfileComponent } from './user/profile/profile.component';
 import { ProjectComponent } from './project/project.component';
@@ -37,7 +36,6 @@ import { ManageServicesComponent } from './admin/manage-services/manage-services
     LoginComponent,
     NavbarComponent,
     ModalComponent,
-    RegisterComponent,
     ProjectsComponent,
     ProfileComponent,
     ProjectComponent,
