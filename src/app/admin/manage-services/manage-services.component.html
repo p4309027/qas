@@ -1,0 +1,26 @@
+<div fxLayout="row" fxLayoutAlign="space-between none" >
+  <div fxFlex="15%" fxFlex.xs="0%"></div>
+  <mat-card fxFlex="70%" fxFlex.xs="100%" class="user-card">
+    <mat-card-title>
+      <h3>Add a new company service</h3>
+    </mat-card-title>
+    <form [formGroup]="servicesForm"
+      fxLayout="column"
+      (ngSubmit)="onSave()">
+      <mat-form-field >
+        <input matInput placeholder="Name" formControlName="name">
+      </mat-form-field>
+
+      <mat-form-field >
+        <input matInput placeholder="Image name" formControlName="img">
+        <span  matSuffix>.jpg</span>
+      </mat-form-field>
+
+      <mat-form-field style="margin-bottom:20px">
+        <textarea matInput placeholder="Details" formControlName="info"></textarea>
+      </mat-form-field>
+      <button type="submit" mat-raised-button color="accent">Save</button>
+    </form>
+  </mat-card>
+  <div fxFlex="15%" fxFlex.xs="0%"></div>
+</div>

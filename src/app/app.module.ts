@@ -28,6 +28,7 @@ import { LoginService } from './login/login.service';
 import { UserService } from './user/user.service';
 import { ContactComponent } from './user/contact/contact.component';
 import { CompanyServicesComponent } from './company-services/company-services.component';
+import { ManageServicesComponent } from './admin/manage-services/manage-services.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { CompanyServicesComponent } from './company-services/company-services.co
     AdminComponent,
     UserComponent,
     ContactComponent,
-    CompanyServicesComponent
+    CompanyServicesComponent,
+    ManageServicesComponent
   ],
   imports: [
     BrowserModule,
