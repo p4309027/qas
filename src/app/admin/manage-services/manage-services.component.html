@@ -1,47 +1,57 @@
-<div fxLayout="row" fxLayoutAlign="space-between none" >
+<div fxLayout="row" fxLayoutAlign="space-between none">
   <div fxFlex="15%" fxFlex.xs="0%"></div>
   <div fxFlex="70%" fxFlex.xs="100%">
     <mat-card>
       <mat-card-title>
         <h3>
           <mat-icon>grain &nbsp;</mat-icon>
-           Add a new company service
+          Add a new company service
         </h3>
       </mat-card-title>
-      <form [formGroup]="servicesForm"
-        fxLayout="column" 
-        (ngSubmit)="onSave()">
-        <mat-form-field >
+      <form [formGroup]="servicesForm" fxLayout="column" (ngSubmit)="onSave()">
+        <mat-form-field>
           <input matInput placeholder="Name" formControlName="name">
         </mat-form-field>
-        <mat-form-field >
+        <mat-form-field>
           <input matInput placeholder="Description" formControlName="description">
         </mat-form-field>
-        <mat-form-field >
+        <mat-form-field>
           <input matInput placeholder="Image name" formControlName="img">
-          <span  matSuffix>.jpg </span>
+          <span matSuffix>.jpg </span>
         </mat-form-field>
         <mat-form-field>
-          <textarea matInput placeholder="Details" 
-            formControlName="info"></textarea>
+          <textarea matInput placeholder="Details" formControlName="info"></textarea>
         </mat-form-field>
         <mat-form-field style="margin-bottom:20px">
-          <textarea matInput placeholder="More details" 
-            formControlName="moreInfo"></textarea>
+          <textarea matInput placeholder="More details" formControlName="moreInfo"></textarea>
         </mat-form-field>
         <div fxLayout="row" fxLayoutAlign="space-evenly center">
-          <button type="submit" mat-raised-button color="accent">Save</button>
+          <button type="submit" *ngIf="!update" mat-raised-button color="accent">Save</button>
+          <button type="button" *ngIf="update" mat-raised-button color="accent" (click)="onUpdate()">Update</button>
         </div>
       </form>
     </mat-card>
-    <br><br>
-    <h3>Current Services:</h3>
-    <mat-list>      
-      <mat-list-item *ngFor="let service of services">
-        <mat-icon mat-list-icon>grain</mat-icon>
-        <p mat-line>{{service.name}}</p>
-      </mat-list-item>
-    </mat-list>
+    <br>
+    <br>
+    <mat-card>
+      <mat-card-title>
+        <h3>Active Services offered by Abfad:</h3>
+      </mat-card-title>
+      <mat-list>
+        <div *ngFor="let service of services">
+          <mat-list-item (click)="onSelect(service)">
+            <p mat-line>
+              <mat-icon mat-list-icon>grain</mat-icon>
+              {{service.name}}
+              <span fxHide.lt-md> : {{service.description}}</span>
+            </p>
+            <!-- <p fxFlex="50%" fxFlex.lt-md="100%"><mat-icon mat-list-icon>grain</mat-icon> {{service.name}}:</p>
+          <p fxHide.lt-md>{{service.description}}</p> -->
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </div>
+      </mat-list>
+    </mat-card>
   </div>
   <div fxFlex="15%" fxFlex.xs="0%"></div>
 </div>

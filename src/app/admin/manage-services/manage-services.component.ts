@@ -12,6 +12,7 @@ export class ManageServicesComponent implements OnInit {
 
   services = [];
   servicesForm: FormGroup;
+  update = false;
 
   constructor(
     private fb: FormBuilder,
@@ -39,6 +40,17 @@ export class ManageServicesComponent implements OnInit {
   onSave() {
     this.adminService.saveServices(this.servicesForm.value)
       .then(d => this.servicesForm.reset());
+  }
+
+  onSelect(service) {
+    this.servicesForm.patchValue(service);
+    this.update = true;
+  }
+
+  onUpdate() {
+    // TODO: create service to update the company services
+    this.servicesForm.reset();
+    this.update = false;
   }
 
   ngOnInit() {
