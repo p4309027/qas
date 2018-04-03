@@ -1,5 +1,10 @@
 <mat-card class="user-card">
-  <mat-card-title>Profile details</mat-card-title>
+  <mat-card-title>Profile details </mat-card-title>
+  <mat-card-subtitle *ngIf="showReminder" class="warning">
+      <mat-icon color="warn">warning &nbsp;</mat-icon>
+      Please update your details 
+  </mat-card-subtitle>
+  <mat-spinner *ngIf="spinner" [diameter]="50"></mat-spinner>
   <form [formGroup]="profileForm" (ngSubmit)="onSave()" fxLayout="column wrap" fxLayoutAlign="center center">
     <mat-card-content fxLayout="column" fxLayoutGap="20px">
       <mat-form-field>

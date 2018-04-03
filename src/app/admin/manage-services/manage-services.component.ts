@@ -1,18 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AdminService } from '../admin.service';
 import { AppService } from '../../app.service';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
+
 
 @Component({
   selector: 'app-manage-services',
   templateUrl: './manage-services.component.html',
   styleUrls: ['./manage-services.component.css']
 })
-export class ManageServicesComponent implements OnInit {
+export class ManageServicesComponent implements OnInit, OnDestroy {
 
+  private ngUnsubscribe: Subject<any> = new Subject();
   services = [];
   servicesForm: FormGroup;
   update = false;
+  spinner = true;
 
   constructor(
     private fb: FormBuilder,
@@ -20,6 +25,11 @@ export class ManageServicesComponent implements OnInit {
     private adminService: AdminService
   ) {
     this.createForms();
+  }
+
+
+  ngOnInit() {
+    this.getServices();
   }
 
   createForms() {
@@ -34,7 +44,11 @@ export class ManageServicesComponent implements OnInit {
 
   getServices() {
     this.appService.getCompanyServices()
-      .subscribe(data => this.services = data);
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(data => {
+        this.services = data;
+        this.spinner = false;
+      });
   }
 
   onSave() {
@@ -53,8 +67,9 @@ export class ManageServicesComponent implements OnInit {
     this.update = false;
   }
 
-  ngOnInit() {
-    this.getServices();
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
 }

@@ -1,5 +1,4 @@
 import { UserService } from './../user.service';
-import { AppService } from './../../app.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
@@ -16,10 +15,11 @@ export class ContactComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
   currentUserContact = {};
   userDbId: string;
+  spinner = true;  
+  showReminder = false;
 
   constructor(
     private fb: FormBuilder,
-    private appService: AppService,
     private userService: UserService
   ) {
     this.createContactForm();
@@ -34,33 +34,49 @@ export class ContactComponent implements OnInit, OnDestroy {
       phone: [{value: '', disabled: true}]
     });
   }
-
-  toggle() {
-    this.isDisabled = !this.isDisabled;
-    if (this.isDisabled) {
-      this.contactForm.get('address').disable();
-      this.contactForm.get('city').disable();
-      this.contactForm.get('country').disable();
-      this.contactForm.get('phone').disable();
-    } else {
-      this.contactForm.get('address').enable();
-      this.contactForm.get('city').enable();
-      this.contactForm.get('country').enable();
-      this.contactForm.get('phone').enable();
-    }
+  
+  enable() {
+    this.isDisabled = false;
+    this.contactForm.get('address').enable();
+    this.contactForm.get('city').enable();
+    this.contactForm.get('country').enable();
+    this.contactForm.get('phone').enable();
   }
 
+  disable() {
+    this.isDisabled = true;
+    this.contactForm.get('address').disable();
+    this.contactForm.get('city').disable();
+    this.contactForm.get('country').disable();
+    this.contactForm.get('phone').disable();
+  }
+  
   onSave() {
     this.userService.updateUserContact(this.userDbId, this.contactForm.value)
       .then(result => {})
       .catch(error => {
         console.log(error);
     });
-    this.toggle();
+    this.checkValidity();
   }
 
   onUpdate() {
-    this.toggle();
+    this.isDisabled = false;
+    this.enable();
+  }
+
+  checkValidity() {
+    let address = this.contactForm.value.address;
+    let city =this.contactForm.value.city;
+    let country = this.contactForm.value.country;
+    let phone =this.contactForm.value.phone;
+    if (!address || !city || !country || !phone) {
+      this.showReminder = true;
+      this.enable();
+    } else {
+      this.showReminder = false;
+      this.disable();
+    }
   }
 
   ngOnInit() {
@@ -76,6 +92,8 @@ export class ContactComponent implements OnInit, OnDestroy {
           phone: data.data().contact.phone
         };
         this.contactForm.patchValue(this.currentUserContact);
+        this.spinner = false;
+        this.checkValidity();
     });
   }
 

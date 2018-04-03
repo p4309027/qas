@@ -21,7 +21,8 @@
         <mat-hint *ngIf="!usernameCheckForm.value.email">Please enter a valid email.</mat-hint>
         <mat-error>Invalid or missing email.</mat-error>
       </mat-form-field>
-      <button type="submit" mat-raised-button color="accent" [disabled]="usernameCheckForm.invalid">Next</button>
+      <button *ngIf="!spinner" type="submit" mat-raised-button color="accent" [disabled]="usernameCheckForm.invalid">Next</button>
+      <mat-spinner *ngIf="spinner" [diameter]="spinnerDiameter"></mat-spinner>
     </form>
     <form *ngIf="!next" [@flyInOut]="'in'"
       fxLayout="row"

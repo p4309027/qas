@@ -1,5 +1,4 @@
 import { UserService } from './../user.service';
-import { AppService } from './../../app.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
@@ -16,10 +15,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
   currentUser = {};
   userDbId: string;
+  spinner = true;
+  showReminder = false;
 
   constructor(
     private fb: FormBuilder,
-    private appService: AppService,
     private userService: UserService
   ) {
     this.createProfileForm();
@@ -34,16 +34,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
       projects: [{value: '', disabled: true}]
     });
   }
+  
+  enable() {
+    this.isDisabled = false;
+    this.profileForm.get('firstName').enable();
+    this.profileForm.get('lastName').enable();
+  }
 
-  toggle() {
-    this.isDisabled = !this.isDisabled;
-    if (this.isDisabled) {
-      this.profileForm.get('firstName').disable();
-      this.profileForm.get('lastName').disable();
-    } else {
-      this.profileForm.get('firstName').enable();
-      this.profileForm.get('lastName').enable();
-    }
+  disable() {
+    this.isDisabled = true;
+    this.profileForm.get('firstName').disable();
+    this.profileForm.get('lastName').disable();
   }
 
   onSave() {
@@ -52,11 +53,24 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .catch(error => {
         console.log(error);
       });
-    this.toggle();
+    this.checkValidity();
   }
 
   onUpdate() {
-    this.toggle();
+    this.isDisabled = false;
+    this.enable();
+  }
+
+  checkValidity() {
+    let fName = this.profileForm.value.firstName;
+    let lName =this.profileForm.value.lastName;
+    if (!fName || !lName) {
+      this.showReminder = true;
+      this.enable();
+    } else {
+      this.showReminder = false;
+      this.disable();
+    }
   }
 
   ngOnInit() {
@@ -68,14 +82,20 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
         this.userDbId = data.id;
+        var projects = data.data().projects;
+        if (Object.keys(projects).length === 0) {
+          projects = 'to be confirmed';
+        }
         this.currentUser = {
           firstName: data.data().firstName,
           lastName: data.data().lastName,
           email: data.data().email,
           role: data.data().role,
-          projects: data.data().projects
+          projects: projects
         };
         this.profileForm.patchValue(this.currentUser);
+        this.spinner = false;
+        this.checkValidity();
       });
   }
 

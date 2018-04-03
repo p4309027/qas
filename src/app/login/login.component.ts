@@ -44,8 +44,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   userAuthData: UserAuthData;
   next = true;
   userExists = true;
+  spinner = false;
+  spinnerDiameter = (window.innerWidth > 599) ? '59' : '36';
 
-  constructor(private fb: FormBuilder, private loginService: LoginService) {
+  constructor(
+    private fb: FormBuilder,
+    private loginService: LoginService
+  ) {
     this.createForms();
   }
 
@@ -59,6 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onNext(username) {
+    this.spinner = true;
     this.loginService.checkUsername(username)
       .takeUntil(this.ngUnsubscribe)
       .subscribe((result: Array<any>) => {

@@ -4,6 +4,8 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { UserAuthData } from './../helper/models/user.model';
 import { AppService } from '../app.service';
+import { MatDialog } from '@angular/material';
+import { DialogComponent } from '../helper/dialog/dialog.component';
 
 @Injectable()
 export class LoginService {
@@ -12,8 +14,16 @@ export class LoginService {
     private router: Router,
     private afs: AngularFirestore,
     private afa: AngularFireAuth,
-    private appService: AppService
+    private appService: AppService,
+    public dialog: MatDialog
   ) { }
+
+  openDialog(err) {
+    this.dialog.open( DialogComponent, {
+      height: '180px',
+      data: { messageForDialog: err.message}
+    });
+  }
 
   checkUsername(username) {
     return this.afs.collection('users-profile', ref => ref.where('email', '==', username)).valueChanges();
@@ -25,7 +35,13 @@ export class LoginService {
       lastName: '',
       email: username,
       role: 'roles vary based on projects',
-      projects: 'to be confirmed'
+      projects: {},
+      contact: {
+        address: '',
+        city: '',
+        country: '',
+        phone: ''
+      }
     });
  }
 
@@ -35,9 +51,7 @@ export class LoginService {
      .then(result => {
        this.loginUser(userAuthData);
      })
-     .catch(err => {
-       console.log(err);
-     });
+     .catch(err => this.openDialog(err));
  }
 
  loginUser(userAuthData: UserAuthData) {
@@ -48,9 +62,7 @@ export class LoginService {
        this.appService.shareUserName(result.email);
        this.router.navigate(['/user']);
      })
-     .catch(err => {
-       console.log(err);
-     });
+     .catch(err => this.openDialog(err));
  }
 
  logout() {

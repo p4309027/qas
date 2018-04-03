@@ -1,3 +1,78 @@
-<p>
-  manage-projects works!
-</p>
+
+<div fxLayout="row" fxLayout.xs="column"
+    fxLayoutAlign="space-evenly start" fxLayoutGap.xs="20px">
+
+  <mat-card fxFlex="40">
+  <mat-card-title>
+    <h3 *ngIf="!update">
+      <mat-icon >business_center &nbsp;</mat-icon>
+      Set up a new project
+    </h3>
+    <h3 *ngIf="update" class="warning">
+      <mat-icon color="warn">warning &nbsp;</mat-icon>
+      Update the project
+    </h3>
+  </mat-card-title>
+  <form [formGroup]="projectsForm" fxLayout="column" (ngSubmit)="onSetUp()">
+    <mat-form-field>
+      <input matInput placeholder="Project name" formControlName="projectName">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Requested service type" formControlName="serviceType">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Site location country" formControlName="country">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Site location city" formControlName="city">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Site location name" formControlName="site">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Assign project manager (can be more than 1)"
+        formControlName="projectManagers">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Assign engineers / constructors"
+        formControlName="engineers">
+    </mat-form-field>
+    <mat-form-field style="margin-bottom:20px">
+      <textarea matInput placeholder="Message to project participants:"
+        formControlName="message"></textarea>
+    </mat-form-field>
+    <div fxLayout="row" fxLayoutAlign="space-evenly center">
+      <button type="submit" *ngIf="!update" mat-raised-button color="accent">
+        Set up
+      </button>
+      <button type="button" *ngIf="update"
+        mat-raised-button color="warn" (click)="onUpdate()">
+        Update
+      </button>
+    </div>
+  </form>
+  </mat-card>
+
+  <mat-card fxFlex="40">
+  <mat-card-title>
+    <h3>List of projects run by Abfad:</h3>
+  </mat-card-title>
+  <mat-list fxLayout="column">
+    <mat-spinner *ngIf="spinner" fxFlexAlign="center" mode="indeterminate" [diameter]="75"></mat-spinner>
+    <div *ngFor="let service of services">
+      <mat-list-item (click)="onSelect(service)">
+        <p mat-line>
+          <mat-icon mat-list-icon>grain</mat-icon>
+          {{service.name}}
+          <span fxHide.lt-lg> : {{service.description}}</span>
+        </p>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </div>
+    <mat-list-item (click)="onSelect(service)">
+      <p mat-line>&nbsp;&nbsp;...&nbsp; and many more are coming</p>
+    </mat-list-item>
+  </mat-list>
+  </mat-card>
+
+</div>

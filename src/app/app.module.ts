@@ -13,7 +13,6 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './helper/navbar/navbar.component';
-import { ModalComponent } from './helper/modal/modal.component';
 import { ProfileComponent } from './user/profile/profile.component';
 import { ProjectComponent } from './project/project.component';
 import { MessagesComponent } from './project/messages/messages.component';
@@ -28,6 +27,8 @@ import { ContactComponent } from './user/contact/contact.component';
 import { CompanyServicesComponent } from './company-services/company-services.component';
 import { ManageServicesComponent } from './admin/manage-services/manage-services.component';
 import { ManageProjectsComponent } from './admin/manage-projects/manage-projects.component';
+import { DialogComponent } from './helper/dialog/dialog.component';
+import { TestComponent } from './admin/test/test.component';
 
 
 @NgModule({
@@ -35,7 +36,6 @@ import { ManageProjectsComponent } from './admin/manage-projects/manage-projects
     AppComponent,
     LoginComponent,
     NavbarComponent,
-    ModalComponent,
     ProfileComponent,
     ProjectComponent,
     MessagesComponent,
@@ -45,7 +45,9 @@ import { ManageProjectsComponent } from './admin/manage-projects/manage-projects
     ContactComponent,
     CompanyServicesComponent,
     ManageServicesComponent,
-    ManageProjectsComponent
+    ManageProjectsComponent,
+    DialogComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +61,7 @@ import { ManageProjectsComponent } from './admin/manage-projects/manage-projects
     AngularFireAuthModule
   ],
   providers: [AppService, LoginService, UserService, AdminService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ DialogComponent ]
 })
 export class AppModule { }

@@ -21,3 +21,16 @@ body {
 .user-card mat-card-content {
   width: 100%;
 }
+
+/* remove background yellow colour in autocomplete */
+input {
+  -webkit-box-shadow: inset 0 0 0px 9999px white;
+  box-shadow: inset 0 0 0px 9999px white;
+}
+
+/* warning messsage style*/
+.warning {
+  background-color: #fbe9e7;
+  color: #d50000;
+  padding: 12px;
+}
