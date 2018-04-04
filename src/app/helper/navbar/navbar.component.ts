@@ -10,20 +10,20 @@ import { AppService } from './../../app.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-  isLoggedIn = false;
+  authStatus = false;
   private ngUnsubscribe: Subject<any> = new Subject();
 
-  constructor( private appService: AppService, private loginService: LoginService) {}
+  constructor( private loginService: LoginService) {}
 
   onLogout() {
     this.loginService.logout();
   }
 
   ngOnInit() {
-    this.appService.isAuthenticated
+    this.loginService.authStateChange
       .takeUntil(this.ngUnsubscribe)
       .subscribe(
-        data => this.isLoggedIn = data
+        authStatus => this.authStatus = authStatus
       );
   }
 

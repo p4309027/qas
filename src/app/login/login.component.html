@@ -2,7 +2,12 @@
   <mat-card-header>
     <div mat-card-avatar class="login-header-image"></div>
     <mat-card-title>Login</mat-card-title>
-    <mat-card-subtitle>Please login to use the system</mat-card-subtitle>
+    <mat-card-subtitle *ngIf="next">
+      Please login to use the system
+    </mat-card-subtitle>
+    <mat-card-subtitle *ngIf="!next">
+      <strong>{{usernameCheckForm.value.email}}</strong>
+    </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <form *ngIf="next" [@flyInOut]="'in'"
@@ -16,9 +21,9 @@
         <input
           type="email"
           matInput
-          placeholder="Your email"
+          placeholder="email"
           formControlName="email">
-        <mat-hint *ngIf="!usernameCheckForm.value.email">Please enter a valid email.</mat-hint>
+        <mat-hint *ngIf="!usernameCheckForm.value.email">Please enter your email address</mat-hint>
         <mat-error>Invalid or missing email.</mat-error>
       </mat-form-field>
       <button *ngIf="!spinner" type="submit" mat-raised-button color="accent" [disabled]="usernameCheckForm.invalid">Next</button>
@@ -35,10 +40,11 @@
         <input
           type="password"
           matInput
-          placeholder="Your password"
+          placeholder="password"
           formControlName="password">
-        <mat-hint *ngIf="!loginForm.value.password">Please enter your password.</mat-hint>
-        <mat-hint align="end"><b>{{ loginForm.value.password?.length }} / min 6 characters</b></mat-hint>
+        <mat-hint *ngIf="!loginForm.value.password">Please enter your password</mat-hint>
+        <mat-hint *ngIf="this.userExists" align="end"><b>{{ loginForm.value.password?.length }} characters</b></mat-hint>
+        <mat-hint *ngIf="!this.userExists" align="end"><b>{{ loginForm.value.password?.length }} / min 6 characters</b></mat-hint>
         <mat-error>Should be at least 6 characters long.</mat-error>
       </mat-form-field>
       <button type="submit" mat-raised-button color="accent" [disabled]="loginForm.invalid">Login</button>

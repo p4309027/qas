@@ -11,7 +11,7 @@ import { UserService } from './user.service';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit, OnDestroy {
-  isLoggedIn: Boolean = false;
+
   currentUserEmail: string;
   private ngUnsubscribe: Subject<any> = new Subject();
 
@@ -21,14 +21,6 @@ export class UserComponent implements OnInit, OnDestroy {
     private router: Router) {}
 
   ngOnInit() {
-    this.appService.isAuthenticated
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(
-        data => this.isLoggedIn = data
-      );
-    if (!this.isLoggedIn) {
-      this.router.navigate(['/login']);
-    }
     this.appService.currentUserUsername
     .takeUntil(this.ngUnsubscribe)
     .subscribe(email => this.currentUserEmail = email);

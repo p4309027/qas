@@ -15,7 +15,7 @@ export class ContactComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
   currentUserContact = {};
   userDbId: string;
-  spinner = true;  
+  spinner = true;
   showReminder = false;
 
   constructor(
@@ -34,7 +34,7 @@ export class ContactComponent implements OnInit, OnDestroy {
       phone: [{value: '', disabled: true}]
     });
   }
-  
+
   enable() {
     this.isDisabled = false;
     this.contactForm.get('address').enable();
@@ -50,7 +50,7 @@ export class ContactComponent implements OnInit, OnDestroy {
     this.contactForm.get('country').disable();
     this.contactForm.get('phone').disable();
   }
-  
+
   onSave() {
     this.userService.updateUserContact(this.userDbId, this.contactForm.value)
       .then(result => {})
@@ -66,10 +66,10 @@ export class ContactComponent implements OnInit, OnDestroy {
   }
 
   checkValidity() {
-    let address = this.contactForm.value.address;
-    let city =this.contactForm.value.city;
-    let country = this.contactForm.value.country;
-    let phone =this.contactForm.value.phone;
+    const address = this.contactForm.value.address;
+    const city = this.contactForm.value.city;
+    const country = this.contactForm.value.country;
+    const phone = this.contactForm.value.phone;
     if (!address || !city || !country || !phone) {
       this.showReminder = true;
       this.enable();

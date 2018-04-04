@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AdminService } from '../admin.service';
 import { AppService } from '../../app.service';
 import { Subject } from 'rxjs/Subject';
@@ -23,32 +23,31 @@ export class ManageProjectsComponent implements OnInit, OnDestroy {
   spinner = true;
 
   constructor(
-    private fb : FormBuilder,
-    private appService : AppService,
-    private adminService : AdminService
+    private fb: FormBuilder,
+    private appService: AppService,
+    private adminService: AdminService
   ) {
     this.createForms();
   }
 
   ngOnInit() {
+    this.setUpData();
   }
 
   createForms() {
     this.projectsForm = this.fb.group({
-      projectName: '',
-      serviceType: '',
-      country: '',
-      city: '',
-      site: '',
-      projectManagers: '',
-      engineers: '',
-      currentPhase: 1,
-      message: 'Welcome all and good luck with this project!',
-      status: 'Active'
+      projectName: ['', Validators.required],
+      serviceType:  [[''], Validators.required],
+      projectManagers: [[''], Validators.required],
+      engineers: [[''], Validators.required],
+      site: ['', Validators.required],
+      city: ['', Validators.required],
+      country: ['', Validators.required],
+      message: 'Welcome all and good luck with this project!'
     });
   }
 
-  getServices() {
+  setUpData() {
     this.appService.getCompanyServices()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
@@ -57,9 +56,26 @@ export class ManageProjectsComponent implements OnInit, OnDestroy {
       });
   }
 
-  onSetUp() {
-    // this.adminService.saveServices(this.servicesForm.value)
-    //   .then(d => this.servicesForm.reset());
+  onSetUpProject() {
+    const newProject = {
+      projectName: this.projectsForm.value.projectName,
+      serviceType:  Object.assign({}, this.projectsForm.value.serviceType),
+      projectManagers: Object.assign({}, this.projectsForm.value.projectManagers),
+      engineers: Object.assign({}, this.projectsForm.value.engineers),
+      site: this.projectsForm.value.site,
+      city: this.projectsForm.value.city,
+      country: this.projectsForm.value.country,
+      currentPhase: 1,
+      message: 'Welcome all and good luck with this project!',
+      status: 'Active',
+      phases: {
+        1: {
+          name: 'phase1',
+          status: 'active'
+        }
+      }
+    };
+    console.log(newProject);
   }
 
   onSelect(project) {
@@ -68,7 +84,7 @@ export class ManageProjectsComponent implements OnInit, OnDestroy {
   }
 
   onUpdate() {
-    // TODO: create service to update the company services
+    // TODO: create service to update the project
     this.projectsForm.reset();
     this.update = false;
   }

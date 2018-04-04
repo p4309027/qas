@@ -1,6 +1,7 @@
 <div fxLayout="row" fxLayoutAlign="space-between none" >
   <div fxFlex="15%" fxFlex.xs="0%"></div>
   <mat-accordion fxFlex="70%" fxFlex.xs="100%">
+    <mat-spinner *ngIf="spinner"></mat-spinner>
     <mat-expansion-panel
       *ngFor="let service of services; let i = index; let l = last"
       [expanded]="step === i" (opened)="setStep(i)" hideToggle="true">

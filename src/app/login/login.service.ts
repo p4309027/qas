@@ -6,14 +6,18 @@ import { UserAuthData } from './../helper/models/user.model';
 import { AppService } from '../app.service';
 import { MatDialog } from '@angular/material';
 import { DialogComponent } from '../helper/dialog/dialog.component';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class LoginService {
+  authStateChange = new Subject<boolean>();
+  // TODO: check this if the rooter guard needs this
+  private isAuthenticated = false;
 
   constructor(
     private router: Router,
     private afs: AngularFirestore,
-    private afa: AngularFireAuth,
+    private afAuth: AngularFireAuth,
     private appService: AppService,
     public dialog: MatDialog
   ) { }
@@ -25,12 +29,26 @@ export class LoginService {
     });
   }
 
+  initAuthStatus() {
+    this.afAuth.authState.subscribe( user => {
+      if (user) {
+        this.isAuthenticated = true;
+        this.authStateChange.next(true);
+        this.appService.shareUserName(user.email);
+      } else {
+        this.authStateChange.next(false);
+        this.router.navigate(['/login']);
+        this.isAuthenticated = false;
+      }
+    });
+  }
+
   checkUsername(username) {
     return this.afs.collection('users-profile', ref => ref.where('email', '==', username)).valueChanges();
- }
+  }
 
   createNewUser(username) {
-    return this.afs.collection('users-profile').add({
+    this.afs.collection('users-profile').add({
       firstName: '',
       lastName: '',
       email: username,
@@ -46,7 +64,7 @@ export class LoginService {
  }
 
  registerUser(userAuthData: UserAuthData) {
-   this.afa.auth
+   this.afAuth.auth
      .createUserWithEmailAndPassword(userAuthData.email, userAuthData.password)
      .then(result => {
        this.loginUser(userAuthData);
@@ -55,20 +73,18 @@ export class LoginService {
  }
 
  loginUser(userAuthData: UserAuthData) {
-   this.afa.auth
+   this.afAuth.auth
      .signInWithEmailAndPassword(userAuthData.email, userAuthData.password)
-     .then(result => {
-      this.appService.loginStatus(true);
-       this.appService.shareUserName(result.email);
-       this.router.navigate(['/user']);
-     })
+     .then(result => this.router.navigate(['/services']) )
      .catch(err => this.openDialog(err));
  }
 
  logout() {
-   this.appService.loginStatus(false);
-   this.afa.auth.signOut();
-   this.router.navigate(['/login']);
+   this.afAuth.auth.signOut();
+ }
+
+ isAuth() {
+  return this.isAuthenticated;
  }
 
 }

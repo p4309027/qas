@@ -9,6 +9,12 @@ app-navbar {
   */
   margin: -8px -8px 50px;
 }
+@media (max-width: 599px) {
+  app-navbar {
+    margin-bottom: 20px;
+  }
+}
+
 
 #copyright {
   margin-top: 30px;

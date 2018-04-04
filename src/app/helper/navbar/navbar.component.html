@@ -1,9 +1,9 @@
 <mat-toolbar color="primary" class="mat-elevation-z6">
   <a>Abfad Ltd.</a>
   <span class="fill-remaining-space"></span>
-  <div >
+  <div *ngIf="authStatus">
       <!-- *ngIf="isLoggedIn" -->
-      <!-- ngIf goes inside <div> when development is completed -->
+      <!-- remove/place 'isLoggedIn' inside <div> during development stage -->
     <a mat-button (click)="onLogout()">
         <mat-icon >exit_to_app</mat-icon> Logout
     </a>

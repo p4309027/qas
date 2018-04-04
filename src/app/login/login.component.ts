@@ -68,17 +68,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginService.checkUsername(username)
       .takeUntil(this.ngUnsubscribe)
       .subscribe((result: Array<any>) => {
-        if (result[0] === undefined) {
+        if (result.length === 0) {
           this.userExists = false;
-          this.loginService.createNewUser(username)
-            .then(() => {
-              this.next = false;
-            });
-        } else if (result[0].email === username) {
-          this.next = false;
-        } else {
-          console.log(result);
         }
+        this.next = false;
     });
   }
 
@@ -89,6 +82,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     };
     if (!this.userExists) {
       this.loginService.registerUser(this.userAuthData);
+      this.loginService.createNewUser(this.userAuthData.email);
     } else {
       this.loginService.loginUser(this.userAuthData);
     }
