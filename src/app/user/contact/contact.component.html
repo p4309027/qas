@@ -2,7 +2,7 @@
   <mat-card-title>Contact details </mat-card-title>
   <mat-card-subtitle *ngIf="showReminder" class="warning">
     <mat-icon color="warn">warning &nbsp;</mat-icon>
-    Please update your details 
+    Please update your contact details 
   </mat-card-subtitle>
   <mat-spinner *ngIf="spinner" [diameter]="50"></mat-spinner>
   <form [formGroup]="contactForm" (ngSubmit)="onSave()" fxLayout="column wrap" fxLayoutAlign="center center">
@@ -21,6 +21,8 @@
       </mat-form-field>
       <mat-form-field>
         <input formControlName="phone" matInput placeholder="Phone/Mobile number">
+        <span matPrefix>+&nbsp;</span>
+        <mat-error>Should be phone number</mat-error>
       </mat-form-field>
     </mat-card-content>
     <mat-card-actions fxLayout fxLayoutGap="20px">

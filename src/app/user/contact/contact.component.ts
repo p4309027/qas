@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
+import { CustomValidators } from 'ng2-validation';
 
 @Component({
   selector: 'app-contact',
@@ -31,7 +32,7 @@ export class ContactComponent implements OnInit, OnDestroy {
       address: [{value: '', disabled: true}],
       city: [{value: '', disabled: true}],
       country: [{value: '', disabled: true}],
-      phone: [{value: '', disabled: true}]
+      phone: [{value: '', disabled: true}, CustomValidators.number]
     });
   }
 
@@ -56,7 +57,7 @@ export class ContactComponent implements OnInit, OnDestroy {
       .then(result => {})
       .catch(error => {
         console.log(error);
-    });
+      });
     this.checkValidity();
   }
 
@@ -80,7 +81,7 @@ export class ContactComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.userService.currentUser
+    this.userService.currentUserProfile
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
         this.userDbId = data.id;

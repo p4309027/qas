@@ -3,22 +3,23 @@ import { Router } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { UserAuthData } from './../helper/models/user.model';
-import { AppService } from '../app.service';
 import { MatDialog } from '@angular/material';
 import { DialogComponent } from '../helper/dialog/dialog.component';
 import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class LoginService {
   authStateChange = new Subject<boolean>();
+  shareUserName = new BehaviorSubject<string>('');
   // TODO: check this if the rooter guard needs this
   private isAuthenticated = false;
+  userName: string;
 
   constructor(
     private router: Router,
     private afs: AngularFirestore,
     private afAuth: AngularFireAuth,
-    private appService: AppService,
     public dialog: MatDialog
   ) { }
 
@@ -32,13 +33,14 @@ export class LoginService {
   initAuthStatus() {
     this.afAuth.authState.subscribe( user => {
       if (user) {
-        this.isAuthenticated = true;
         this.authStateChange.next(true);
-        this.appService.shareUserName(user.email);
+        this.shareUserName.next(user.email);
+        this.isAuthenticated = true;
       } else {
         this.authStateChange.next(false);
-        this.router.navigate(['/login']);
+        this.shareUserName.next(null);
         this.isAuthenticated = false;
+        this.router.navigate(['/login']);
       }
     });
   }
@@ -67,6 +69,7 @@ export class LoginService {
    this.afAuth.auth
      .createUserWithEmailAndPassword(userAuthData.email, userAuthData.password)
      .then(result => {
+       this.createNewUser(userAuthData.email);
        this.loginUser(userAuthData);
      })
      .catch(err => this.openDialog(err));

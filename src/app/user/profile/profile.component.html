@@ -8,10 +8,10 @@
   <form [formGroup]="profileForm" (ngSubmit)="onSave()" fxLayout="column wrap" fxLayoutAlign="center center">
     <mat-card-content fxLayout="column" fxLayoutGap="20px">
       <mat-form-field>
-        <input formControlName="firstName" matInput placeholder="Name">
+        <input formControlName="firstName" matInput placeholder="First Name *">
       </mat-form-field>
       <mat-form-field>
-        <input formControlName="lastName" matInput placeholder="Surname">
+        <input formControlName="lastName" matInput placeholder="Surname *">
       </mat-form-field>
       <mat-form-field>
         <input formControlName="email" matInput placeholder="Username">

@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class UserService {
-  currentUser:  Subject<any> = new Subject();
+  currentUserProfile:  Subject<any> = new Subject();
 
   constructor( private afs: AngularFirestore ) { }
 
@@ -12,7 +12,7 @@ export class UserService {
     if (username) {
       this.afs.collection('users-profile', ref => ref.where('email', '==', username))
         .snapshotChanges()
-        .subscribe( data => this.currentUser.next(data[0].payload.doc));
+        .subscribe( data => this.currentUserProfile.next(data[0].payload.doc));
     }
   }
 

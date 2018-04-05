@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   userExists = true;
   spinner = false;
   spinnerDiameter = (window.innerWidth > 599) ? '59' : '36';
+  hide = true;
 
   constructor(
     private fb: FormBuilder,
@@ -82,7 +83,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     };
     if (!this.userExists) {
       this.loginService.registerUser(this.userAuthData);
-      this.loginService.createNewUser(this.userAuthData.email);
     } else {
       this.loginService.loginUser(this.userAuthData);
     }

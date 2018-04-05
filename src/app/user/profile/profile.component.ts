@@ -13,7 +13,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   profileForm: FormGroup;
   isDisabled = true;
   private ngUnsubscribe: Subject<any> = new Subject();
-  currentUser = {};
+  currentUserProfile = {};
   userDbId: string;
   spinner = true;
   showReminder = false;
@@ -34,7 +34,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       projects: [{value: '', disabled: true}]
     });
   }
-  
+
   enable() {
     this.isDisabled = false;
     this.profileForm.get('firstName').enable();
@@ -62,8 +62,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   checkValidity() {
-    let fName = this.profileForm.value.firstName;
-    let lName =this.profileForm.value.lastName;
+    const fName = this.profileForm.value.firstName;
+    const lName = this.profileForm.value.lastName;
     if (!fName || !lName) {
       this.showReminder = true;
       this.enable();
@@ -78,22 +78,22 @@ export class ProfileComponent implements OnInit, OnDestroy {
     // then 'user service' will get the data and triggers 'currentUser' Subject
     // the 'profile component' will listen to 'currentUser' Subject
     // and update user's profile form in the view
-    this.userService.currentUser
+    this.userService.currentUserProfile
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
         this.userDbId = data.id;
-        var projects = data.data().projects;
+        let projects = data.data().projects;
         if (Object.keys(projects).length === 0) {
           projects = 'to be confirmed';
         }
-        this.currentUser = {
+        this.currentUserProfile = {
           firstName: data.data().firstName,
           lastName: data.data().lastName,
           email: data.data().email,
           role: data.data().role,
           projects: projects
         };
-        this.profileForm.patchValue(this.currentUser);
+        this.profileForm.patchValue(this.currentUserProfile);
         this.spinner = false;
         this.checkValidity();
       });
