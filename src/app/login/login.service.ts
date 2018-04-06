@@ -46,7 +46,9 @@ export class LoginService {
   }
 
   checkUsername(username) {
-    return this.afs.collection('users-profile', ref => ref.where('email', '==', username)).valueChanges();
+    return this.afs.collection(
+            'users-profile', ref => ref.where('email', '==', username)
+          ).valueChanges();
   }
 
   createNewUser(username) {
@@ -54,7 +56,7 @@ export class LoginService {
       firstName: '',
       lastName: '',
       email: username,
-      role: 'roles vary based on projects',
+      role: '',
       projects: {},
       contact: {
         address: '',

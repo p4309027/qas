@@ -4,6 +4,10 @@ import { AdminService } from '../admin.service';
 import { AppService } from '../../app.service';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
+import { LoginService } from '../../login/login.service';
+import { UserProfile } from '../../helper/models/user.model';
+import { MatDialog } from '@angular/material';
+import { DialogComponent } from '../../helper/dialog/dialog.component';
 
 
 @Component({
@@ -16,16 +20,21 @@ export class ManageProjectsComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
   projects = [];
   services = [];
-  managers = [];
+  projectManagers = [];
   engineers = [];
-  projectsForm: FormGroup;
+  projectForm: FormGroup;
   update = false;
-  spinner = true;
+  spinnerForm = true;
+  spinnerList = true;
+  spinnerSetUp = false;
+  admin: UserProfile;
 
   constructor(
     private fb: FormBuilder,
+    private loginService: LoginService,
     private appService: AppService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    public dialog: MatDialog
   ) {
     this.createForms();
   }
@@ -35,7 +44,7 @@ export class ManageProjectsComponent implements OnInit, OnDestroy {
   }
 
   createForms() {
-    this.projectsForm = this.fb.group({
+    this.projectForm = this.fb.group({
       projectName: ['', Validators.required],
       serviceType:  [[''], Validators.required],
       projectManagers: [[''], Validators.required],
@@ -47,45 +56,117 @@ export class ManageProjectsComponent implements OnInit, OnDestroy {
     });
   }
 
+  arrayToCustomObject(array: any) {
+    let obj = {};
+    array.forEach(element => {
+      obj[element.email] = true;
+    });
+    return obj;
+  }
+
   setUpData() {
     this.appService.getCompanyServices()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
-        this.services = data;
-        this.spinner = false;
+        this.services = data;        
+      });
+    
+    this.adminService.getEngineers()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(data => {
+        this.engineers = data;
+      });
+
+    this.adminService.getProjectManagers()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(data => {
+        this.projectManagers = data;
+        this.spinnerForm = false;
+      });
+
+    this.adminService.getProjects()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(data => {
+        this.projects = data;
+        this.spinnerList = false;
+    });
+
+    this.loginService.shareUserName
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(username => {
+        if(username) {
+          this.adminService.getUserProfile(username)
+            .takeUntil(this.ngUnsubscribe)
+            .subscribe( user => {
+              this.admin = {
+                uId: user[0].payload.doc.id,
+                email: user[0].payload.doc.data().email,
+                firstName: user[0].payload.doc.data().firstName,
+                lastName: user[0].payload.doc.data().lastName,
+                role: user[0].payload.doc.data().role
+              };
+            });
+        }        
       });
   }
 
   onSetUpProject() {
+    this.spinnerSetUp = true;
     const newProject = {
-      projectName: this.projectsForm.value.projectName,
-      serviceType:  Object.assign({}, this.projectsForm.value.serviceType),
-      projectManagers: Object.assign({}, this.projectsForm.value.projectManagers),
-      engineers: Object.assign({}, this.projectsForm.value.engineers),
-      site: this.projectsForm.value.site,
-      city: this.projectsForm.value.city,
-      country: this.projectsForm.value.country,
+      projectName: this.projectForm.value.projectName,
+      serviceType:  this.projectForm.value.serviceType,
+      projectManagers: this.arrayToCustomObject(this.projectForm.value.projectManagers),
+      engineers: this.arrayToCustomObject(this.projectForm.value.engineers),
+      site: this.projectForm.value.site,
+      city: this.projectForm.value.city,
+      country: this.projectForm.value.country,
       currentPhase: 1,
-      message: 'Welcome all and good luck with this project!',
       status: 'Active',
-      phases: {
-        1: {
-          name: 'phase1',
-          status: 'active'
-        }
-      }
+      activePhase: 'phase1',
+      completedPhases: []
     };
-    console.log(newProject);
+
+    const phaseObj = {
+      username: this.admin.email,
+      name: this.admin.firstName + ' ' + this.admin.lastName,
+      message: 'Welcome all and good luck with this project!',
+      role: this.admin.role
+    };
+
+    const initPhaseNumber = 'phase1';
+    
+    this.adminService.saveProjects(newProject, phaseObj, initPhaseNumber)
+      .then( data => {
+        if(data.id) {
+          this.spinnerSetUp = false;
+          this.dialog.open( DialogComponent, {
+            height: '180px',
+            data: { messageForDialog: 'New Project has been successfully set up'}
+          });
+          this.projectForm.reset({
+            projectName: '',
+            serviceType:  '',
+            projectManagers: '',
+            engineers: '',
+            site: '',
+            city: '',
+            country: '',
+            message: 'Welcome all and good luck with this project!'
+          });
+        }
+      });
   }
 
+  // update project
   onSelect(project) {
-    this.projectsForm.patchValue(project);
-    this.update = true;
+    // this.projectForm.patchValue(project);
+    // this.update = true;
   }
 
+  // update project
   onUpdate() {
     // TODO: create service to update the project
-    this.projectsForm.reset();
+    this.projectForm.reset();
     this.update = false;
   }
 

@@ -8,5 +8,6 @@ export interface UserProfile {
   lastName: string;
   email: string;
   role: string;
-  projects: Array<string>;
+  projects?: Array<string>;
+  uId?: string;
 }

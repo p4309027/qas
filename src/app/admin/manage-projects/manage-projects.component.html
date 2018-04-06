@@ -13,16 +13,17 @@
         Update the project
       </h3>
     </mat-card-title>
-    <form [formGroup]="projectsForm" fxLayout="column" (ngSubmit)="onSetUpProject()">
+    <mat-spinner *ngIf="spinnerForm" fxFlexAlign="center" mode="indeterminate" [diameter]="75"></mat-spinner>
+    <form [formGroup]="projectForm" fxLayout="column" (ngSubmit)="onSetUpProject()">
       <mat-form-field>
         <input matInput placeholder="Project name" formControlName="projectName">
       </mat-form-field>
       <mat-form-field>
         <mat-select placeholder="Service type" formControlName="serviceType" multiple>
           <mat-select-trigger>
-            {{projectsForm.value.serviceType ? projectsForm.value.serviceType[0] : ''}}
-            <span *ngIf="projectsForm.value.serviceType?.length > 1" class="mat-caption">
-              (+{{projectsForm.value.serviceType.length - 1}} other services)
+            {{projectForm.value.serviceType ? projectForm.value.serviceType[0] : ''}}
+            <span *ngIf="projectForm.value.serviceType?.length > 1" class="mat-caption">
+              (+{{projectForm.value.serviceType.length - 1}} other services)
             </span>
           </mat-select-trigger>
           <mat-option *ngFor="let service of services" [value]="service.name">
@@ -33,12 +34,12 @@
       <mat-form-field>
         <mat-select placeholder="Project manager(s)" formControlName="projectManagers" multiple>
           <mat-select-trigger>
-            {{projectsForm.value.projectManagers ? projectsForm.value.projectManagers[0].name : ''}}
-            <span *ngIf="projectsForm.value.projectManagers?.length > 1" class="mat-caption">
-              (+{{projectsForm.value.projectManagers.length - 1}} more project managers)
+            {{projectForm.value.projectManagers[0] ? projectForm.value.projectManagers[0].name : ''}}
+            <span *ngIf="projectForm.value.projectManagers?.length > 1" class="mat-caption">
+              (+{{projectForm.value.projectManagers.length - 1}} more project managers)
             </span>
           </mat-select-trigger>
-          <mat-option *ngFor="let manager of managers"
+          <mat-option *ngFor="let manager of projectManagers"
             [value]="{email:manager.email, name: manager.firstName + ' ' + manager.lastName}">
             {{manager.firstName}} {{manager.lastName}}
           </mat-option>
@@ -47,9 +48,9 @@
       <mat-form-field>
         <mat-select placeholder="Engineers / Constructors" formControlName="engineers" multiple>
           <mat-select-trigger>
-            {{projectsForm.value.engineers ? projectsForm.value.engineers[0].name : ''}}
-            <span *ngIf="projectsForm.value.engineers?.length > 1" class="mat-caption">
-              (+{{projectsForm.value.engineers.length - 1}} more engineers)
+            {{projectForm.value.engineers[0] ? projectForm.value.engineers[0].name : ''}}
+            <span *ngIf="projectForm.value.engineers?.length > 1" class="mat-caption">
+              (+{{projectForm.value.engineers.length - 1}} more engineers)
             </span>
           </mat-select-trigger>
           <mat-option *ngFor="let engineer of engineers"
@@ -72,11 +73,16 @@
           formControlName="message"></textarea>
       </mat-form-field>
       <div fxLayout="row" fxLayoutAlign="space-evenly center">
-        <button type="submit" *ngIf="!update" mat-raised-button color="accent">
+        <button type="submit" *ngIf="!spinnerSetUp"
+          mat-raised-button color="accent"
+          [disabled]="projectForm.invalid">
           Set up
         </button>
+        <mat-spinner *ngIf="spinnerSetUp" fxFlexAlign="center"
+          mode="indeterminate" [diameter]="59"></mat-spinner>
         <button type="button" *ngIf="update"
-          mat-raised-button color="warn" (click)="onUpdate()">
+          mat-raised-button color="warn" (click)="onUpdate()"
+          [disabled]="projectForm.invalid">
           Update
         </button>
       </div>
@@ -88,13 +94,17 @@
       <h3>List of projects run by Abfad:</h3>
     </mat-card-title>
     <mat-list fxLayout="column">
-      <mat-spinner *ngIf="spinner" fxFlexAlign="center" mode="indeterminate" [diameter]="75"></mat-spinner>
-      <div *ngFor="let service of services">
-        <mat-list-item (click)="onSelect(service)">
+      <mat-spinner *ngIf="spinnerList" fxFlexAlign="center" mode="indeterminate" [diameter]="75"></mat-spinner>
+      <div *ngFor="let project of projects">
+        <mat-list-item (click)="onSelect(project)">
           <p mat-line>
-            <mat-icon mat-list-icon>grain</mat-icon>
-            {{service.name}}
-            <span fxHide.lt-lg> : {{service.description}}</span>
+            <mat-icon mat-list-icon>business_center</mat-icon>
+            {{project.projectName}}
+            <span fxHide.lt-lg> - 
+              <span *ngFor="let s of project.serviceType; let l = last">
+                <em>{{ l? s : s + ' ' }}</em>
+              </span>
+            </span>
           </p>
         </mat-list-item>
         <mat-divider></mat-divider>

@@ -83,14 +83,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.userDbId = data.id;
         let projects = data.data().projects;
+        let role = data.data().role;
         if (Object.keys(projects).length === 0) {
           projects = 'to be confirmed';
+        }
+        if (role === '') {
+          role = 'roles vary based on projects';
         }
         this.currentUserProfile = {
           firstName: data.data().firstName,
           lastName: data.data().lastName,
           email: data.data().email,
-          role: data.data().role,
+          role: role,
           projects: projects
         };
         this.profileForm.patchValue(this.currentUserProfile);
