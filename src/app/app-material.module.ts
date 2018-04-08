@@ -11,7 +11,9 @@ import {
   MatExpansionModule,
   MatListModule,
   MatDialogModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatTableModule,
+  MatPaginatorModule
 } from '@angular/material';
 
 const appMaterialModules: any[] = [
@@ -26,7 +28,9 @@ const appMaterialModules: any[] = [
   MatExpansionModule,
   MatListModule,
   MatDialogModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatTableModule,
+  MatPaginatorModule
 ];
 
 @NgModule({

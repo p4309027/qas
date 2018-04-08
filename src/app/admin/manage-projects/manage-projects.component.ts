@@ -29,7 +29,7 @@ export class ManageProjectsComponent implements OnInit, OnDestroy {
   spinnerList = true;
   spinnerSetUp = false;
   admin: UserProfile;
-  spinnerAdmin = true;
+  spinnerAdmin = false;
 
   constructor(
     private fb: FormBuilder,
@@ -98,22 +98,16 @@ export class ManageProjectsComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(username => {
         if (username) {
-          this.adminService.getUserProfile(username)
+          this.adminService.getAdmin(username)
             .takeUntil(this.ngUnsubscribe)
-            .subscribe( user => {
-              const role = user[0].payload.doc.data().role;
-              if (role !== 'admin') {
-                this.router.navigate(['**']);
-              } else {
+            .subscribe( (user: any) => {
                 this.admin = {
-                  uId: user[0].payload.doc.id,
-                  email: user[0].payload.doc.data().email,
-                  firstName: user[0].payload.doc.data().firstName,
-                  lastName: user[0].payload.doc.data().lastName,
-                  role: user[0].payload.doc.data().role
+                  email: user[0].email,
+                  firstName: user[0].firstName,
+                  lastName: user[0].lastName,
+                  role: user[0].role
                 };
-                this.spinnerAdmin = false;
-              }
+                this.spinnerAdmin = true;
             });
         }
       });

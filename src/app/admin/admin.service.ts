@@ -11,9 +11,9 @@ export class AdminService {
     return firebase.firestore.FieldValue.serverTimestamp();
   }
 
-  getUserProfile(username) {
+  getAdmin(username) {
     return this.afs.collection('users-profile', ref => ref.where('email', '==', username))
-            .snapshotChanges();
+            .valueChanges();
   }
 
   saveServices(service) {

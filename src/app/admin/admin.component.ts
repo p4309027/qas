@@ -25,10 +25,10 @@ export class AdminComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(username => {
         if (username) {
-          this.adminService.getUserProfile(username)
+          this.adminService.getAdmin(username)
             .takeUntil(this.ngUnsubscribe)
-            .subscribe( user => {
-              const role = user[0].payload.doc.data().role;
+            .subscribe( (user: any) => {
+              const role = user[0].role;
               if (role !== 'admin') {
                 this.router.navigate(['**']);
               } else {

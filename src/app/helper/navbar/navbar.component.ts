@@ -12,6 +12,7 @@ import { AppService } from './../../app.service';
 export class NavbarComponent implements OnInit, OnDestroy {
   authStatus = false;
   private ngUnsubscribe: Subject<any> = new Subject();
+  isAdmin = false;
 
   constructor( private loginService: LoginService) {}
 
@@ -25,6 +26,25 @@ export class NavbarComponent implements OnInit, OnDestroy {
       .subscribe(
         authStatus => this.authStatus = authStatus
       );
+
+    // check user role
+    this.loginService.shareUserName
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(username => {
+        if (username) {
+          this.loginService.checkUsername(username)
+            .takeUntil(this.ngUnsubscribe)
+            .subscribe( (user: any) => {
+              const role = user[0].role;
+              if (role === 'admin') {
+                this.isAdmin = true;
+              } else {
+                this.isAdmin = false;
+              }
+            });
+        }
+      });
+      // END check user role
   }
 
   ngOnDestroy() {

@@ -15,8 +15,6 @@ import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './helper/navbar/navbar.component';
 import { ProfileComponent } from './user/profile/profile.component';
 import { ProjectComponent } from './project/project.component';
-import { MessagesComponent } from './project/messages/messages.component';
-import { VideosComponent } from './project/videos/videos.component';
 import { AdminComponent } from './admin/admin.component';
 import { UserComponent } from './user/user.component';
 import { AdminService } from './admin/admin.service';
@@ -40,8 +38,6 @@ import { PageNotFoundComponent } from './helper/page-not-found/page-not-found.co
     NavbarComponent,
     ProfileComponent,
     ProjectComponent,
-    MessagesComponent,
-    VideosComponent,
     AdminComponent,
     UserComponent,
     ContactComponent,

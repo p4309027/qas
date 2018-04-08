@@ -15,10 +15,15 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'user', component: UserComponent},
   { path: 'services', component: CompanyServicesComponent},
-  { path: 'admin', component: AdminComponent },
-  { path: 'admin/manage-services', component: ManageServicesComponent},
-  { path: 'admin/manage-projects', component: ManageProjectsComponent},
-  { path: 'admin/manage-users', component: ManageUsersComponent},
+  {
+    path: 'admin', component: AdminComponent,
+    children: [
+      { path: 'manage-services', component: ManageServicesComponent},
+      { path: 'manage-projects', component: ManageProjectsComponent},
+      { path: 'manage-users', component: ManageUsersComponent}
+
+    ]
+  },
   { path: '**', component: PageNotFoundComponent }
 ];
 

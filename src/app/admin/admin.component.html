@@ -1,26 +1,32 @@
 <div *ngIf="spinner"  fxLayout="row" fxLayoutAlign="center center">
-    <mat-spinner [diameter]="150"></mat-spinner>
+    <mat-spinner [diameter]="100"></mat-spinner>
 </div>
-<div *ngIf="!spinner" fxLayout="row" fxLayout.xs="column"
-  fxLayoutAlign="space-evenly center" fxLayoutAlign.xs="space-evenly stretch"
-  fxLayoutGap.xs="20px">
-  
-  <a routerLink="/admin/manage-services" fxFlex="25">
-    <mat-card >
-      <mat-card-title>Manage Servicess</mat-card-title>
-    </mat-card>
-  </a>
-  
-  <a routerLink="/admin/manage-projects" fxFlex="25">
-    <mat-card >
-      <mat-card-title>Manage Projects</mat-card-title>
-    </mat-card>
-  </a>
-  
-  <a routerLink="/admin/manage-users" fxFlex="25">
-    <mat-card >
-      <mat-card-title>Manage Users</mat-card-title>
-    </mat-card>
-  </a>
-
+<div fxLayout="column" fxLayoutAlign="space-evenly stretch" fxLayoutGap="25px">
+  <div fxFlex="25" >
+    <div *ngIf="!spinner" fxLayout="row" fxLayout.xs="column"
+    fxLayoutAlign="space-evenly center" fxLayoutAlign.xs="space-evenly stretch"
+    fxLayoutGap.xs="20px" >  
+      <a routerLink="manage-services" routerLinkActive="active" fxFlex="30">
+        <mat-card >
+          <mat-card-title >Manage Services</mat-card-title>
+        </mat-card>
+      </a>  
+      <a routerLink="manage-projects" fxFlex="30">
+        <mat-card >
+          <mat-card-title>Manage Projects</mat-card-title>
+        </mat-card>
+      </a>  
+      <a routerLink="manage-users" fxFlex="30">
+        <mat-card >
+          <mat-card-title>Manage Users</mat-card-title>
+        </mat-card>
+      </a>
+    </div>
+  </div>
+  <div fxFlex="15" >
+    <mat-divider></mat-divider>
+  </div>
+  <div fxFlex >
+    <router-outlet></router-outlet>
+  </div>
 </div>

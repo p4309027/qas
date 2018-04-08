@@ -20,7 +20,7 @@ export class ManageServicesComponent implements OnInit, OnDestroy {
   servicesForm: FormGroup;
   update = false;
   spinner = true;
-  spinnerAdmin = true;
+  spinnerAdmin = false;
 
   constructor(
     private fb: FormBuilder,
@@ -35,22 +35,22 @@ export class ManageServicesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // router guard alternative
-    this.loginService.shareUserName
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(username => {
-        if (username) {
-          this.adminService.getUserProfile(username)
-            .takeUntil(this.ngUnsubscribe)
-            .subscribe( user => {
-              const role = user[0].payload.doc.data().role;
-              if (role !== 'admin') {
-                this.router.navigate(['**']);
-              } else {
-                this.spinnerAdmin = false;
-              }
-            });
-        }
-      });
+    // this.loginService.shareUserName
+    //   .takeUntil(this.ngUnsubscribe)
+    //   .subscribe(username => {
+    //     if (username) {
+    //       this.adminService.getUserProfile(username)
+    //         .takeUntil(this.ngUnsubscribe)
+    //         .subscribe( user => {
+    //           const role = user[0].payload.doc.data().role;
+    //           if (role !== 'admin') {
+    //             this.router.navigate(['**']);
+    //           } else {
+    //             this.spinnerAdmin = true;
+    //           }
+    //         });
+    //     }
+    //   });
     // end alternative
     this.getServices();
   }
@@ -71,6 +71,7 @@ export class ManageServicesComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.services = data;
         this.spinner = false;
+        this.spinnerAdmin = true;
       });
   }
 
