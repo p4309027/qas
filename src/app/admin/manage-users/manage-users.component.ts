@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import { setTimeout } from 'timers';
 
 @Component({
   selector: 'app-manage-users',
