@@ -15,8 +15,9 @@ export class TestComponent implements OnInit {
     // 1st step: assuming user has logged in: Login -> User state
     console.log(`engineers.${user}`);
     let i;
-    this.afs.collection('test', ref => ref.where(`engineers.${user}`, '==', true)) // <- 2nd step, get list of 'user' involved projects, then display them
-    // user clicked on a project from the list of the projects  
+    this.afs.collection(
+      'test', ref => ref.where(`engineers.${user}`, '==', true)) // <- 2nd step, get list of 'user' involved projects, then display them
+    // user clicked on a project from the list of the projects
     // state changed: User state -> Project state
     // display info about this project
     // and

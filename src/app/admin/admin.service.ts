@@ -49,7 +49,7 @@ export class AdminService {
       return this.afs.collection('projects').doc(res.id).collection(phase).add({
         ...phaseObj,
         createdAt: timestamp
-      })
+      });
     });
   }
 

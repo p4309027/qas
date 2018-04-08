@@ -8,6 +8,7 @@ import { LoginService } from '../../login/login.service';
 import { UserProfile } from '../../helper/models/user.model';
 import { MatDialog } from '@angular/material';
 import { DialogComponent } from '../../helper/dialog/dialog.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -28,13 +29,15 @@ export class ManageProjectsComponent implements OnInit, OnDestroy {
   spinnerList = true;
   spinnerSetUp = false;
   admin: UserProfile;
+  spinnerAdmin = true;
 
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
     private appService: AppService,
     private adminService: AdminService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) {
     this.createForms();
   }
@@ -57,7 +60,7 @@ export class ManageProjectsComponent implements OnInit, OnDestroy {
   }
 
   arrayToCustomObject(array: any) {
-    let obj = {};
+    const obj = {};
     array.forEach(element => {
       obj[element.email] = true;
     });
@@ -68,9 +71,9 @@ export class ManageProjectsComponent implements OnInit, OnDestroy {
     this.appService.getCompanyServices()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
-        this.services = data;        
+        this.services = data;
       });
-    
+
     this.adminService.getEngineers()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
@@ -94,19 +97,25 @@ export class ManageProjectsComponent implements OnInit, OnDestroy {
     this.loginService.shareUserName
       .takeUntil(this.ngUnsubscribe)
       .subscribe(username => {
-        if(username) {
+        if (username) {
           this.adminService.getUserProfile(username)
             .takeUntil(this.ngUnsubscribe)
             .subscribe( user => {
-              this.admin = {
-                uId: user[0].payload.doc.id,
-                email: user[0].payload.doc.data().email,
-                firstName: user[0].payload.doc.data().firstName,
-                lastName: user[0].payload.doc.data().lastName,
-                role: user[0].payload.doc.data().role
-              };
+              const role = user[0].payload.doc.data().role;
+              if (role !== 'admin') {
+                this.router.navigate(['**']);
+              } else {
+                this.admin = {
+                  uId: user[0].payload.doc.id,
+                  email: user[0].payload.doc.data().email,
+                  firstName: user[0].payload.doc.data().firstName,
+                  lastName: user[0].payload.doc.data().lastName,
+                  role: user[0].payload.doc.data().role
+                };
+                this.spinnerAdmin = false;
+              }
             });
-        }        
+        }
       });
   }
 
@@ -134,10 +143,10 @@ export class ManageProjectsComponent implements OnInit, OnDestroy {
     };
 
     const initPhaseNumber = 'phase1';
-    
+
     this.adminService.saveProjects(newProject, phaseObj, initPhaseNumber)
       .then( data => {
-        if(data.id) {
+        if (data.id) {
           this.spinnerSetUp = false;
           this.dialog.open( DialogComponent, {
             height: '180px',

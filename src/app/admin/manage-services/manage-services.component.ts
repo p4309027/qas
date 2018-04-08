@@ -2,8 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AdminService } from '../admin.service';
 import { AppService } from '../../app.service';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
+import { LoginService } from '../../login/login.service';
 
 
 @Component({
@@ -18,17 +20,38 @@ export class ManageServicesComponent implements OnInit, OnDestroy {
   servicesForm: FormGroup;
   update = false;
   spinner = true;
+  spinnerAdmin = true;
 
   constructor(
     private fb: FormBuilder,
     private appService: AppService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private router: Router,
+    private loginService: LoginService
   ) {
     this.createForms();
   }
 
 
   ngOnInit() {
+    // router guard alternative
+    this.loginService.shareUserName
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(username => {
+        if (username) {
+          this.adminService.getUserProfile(username)
+            .takeUntil(this.ngUnsubscribe)
+            .subscribe( user => {
+              const role = user[0].payload.doc.data().role;
+              if (role !== 'admin') {
+                this.router.navigate(['**']);
+              } else {
+                this.spinnerAdmin = false;
+              }
+            });
+        }
+      });
+    // end alternative
     this.getServices();
   }
 

@@ -12,9 +12,6 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 export class LoginService {
   authStateChange = new Subject<boolean>();
   shareUserName = new BehaviorSubject<string>('');
-  // TODO: check this if the rooter guard needs this
-  private isAuthenticated = false;
-  userName: string;
 
   constructor(
     private router: Router,
@@ -35,11 +32,9 @@ export class LoginService {
       if (user) {
         this.authStateChange.next(true);
         this.shareUserName.next(user.email);
-        this.isAuthenticated = true;
       } else {
         this.authStateChange.next(false);
         this.shareUserName.next(null);
-        this.isAuthenticated = false;
         this.router.navigate(['/login']);
       }
     });
@@ -86,10 +81,6 @@ export class LoginService {
 
  logout() {
    this.afAuth.auth.signOut();
- }
-
- isAuth() {
-  return this.isAuthenticated;
  }
 
 }

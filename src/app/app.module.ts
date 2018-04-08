@@ -29,6 +29,8 @@ import { ManageServicesComponent } from './admin/manage-services/manage-services
 import { ManageProjectsComponent } from './admin/manage-projects/manage-projects.component';
 import { DialogComponent } from './helper/dialog/dialog.component';
 import { TestComponent } from './admin/test/test.component';
+import { ManageUsersComponent } from './admin/manage-users/manage-users.component';
+import { PageNotFoundComponent } from './helper/page-not-found/page-not-found.component';
 
 
 @NgModule({
@@ -47,7 +49,9 @@ import { TestComponent } from './admin/test/test.component';
     ManageServicesComponent,
     ManageProjectsComponent,
     DialogComponent,
-    TestComponent
+    TestComponent,
+    ManageUsersComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
