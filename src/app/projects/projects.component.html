@@ -1,0 +1,70 @@
+<div fxLayout="row" fxLayoutAlign="space-between none" >
+  <div fxFlex="15%" fxFlex.xs="0%"></div>
+  <mat-accordion fxFlex="70%" fxFlex.xs="100%">
+    <mat-spinner *ngIf="spinner"></mat-spinner>
+    <mat-expansion-panel
+      *ngFor="let project of projects; let i = index; let l = last"
+      [expanded]="step === i" (opened)="setStep(i)" hideToggle="true">
+      <mat-expansion-panel-header fxLayout="row" fxLayoutAlign="space-between center" color="background">
+        <mat-panel-title fxFlex="35">
+          <span >{{project.projectName}}</span>
+        </mat-panel-title>
+        <mat-panel-description fxFlex >
+          {{project.serviceType[0]}}
+          <span *ngIf="project.serviceType.length > 1">
+            ...&nbsp;&nbsp;&nbsp;+{{project.serviceType.length - 1}}&nbsp;more
+          </span>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div fxLayout="column" fxLayoutAlign="space-around stretch" class="panel">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" class="panel-child">
+            <div fxFlex="35">Site name: </div>
+            <div fxFlex>{{project.site}}</div>
+        </div>
+        <mat-divider></mat-divider>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" class="panel-child">
+            <div fxFlex="35">Location: </div>
+            <div fxFlex>{{project.city}}, {{project.country}}</div>
+        </div>
+        <mat-divider></mat-divider>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" class="panel-child">
+            <div fxFlex="35">Provided service(s): </div>
+            <div fxFlex>{{project.serviceTypeModified}}</div>
+        </div>
+        <mat-divider></mat-divider>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" class="panel-child">
+            <div fxFlex="35">Project manager(s): </div>
+            <div fxFlex>{{project.projectManagersModified}}</div>
+        </div>
+        <mat-divider></mat-divider>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" class="panel-child">
+            <div fxFlex="35">Engineers / Constructors: </div>
+            <div fxFlex>{{project.engineersModified}}</div>
+        </div>
+        <mat-divider></mat-divider>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" class="panel-child">
+            <div fxFlex="35">Current phase: </div>
+            <div fxFlex>{{project.currentPhase}}</div>
+        </div>
+        <mat-divider></mat-divider>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" class="panel-child">
+            <div fxFlex="35">Status: </div>
+            <div fxFlex>{{project.status}}</div>
+        </div>
+      </div>
+      <mat-action-row>
+        <button *ngIf="i !== 0" mat-button color="accent" (click)="prevStep()">
+            <mat-icon>keyboard_arrow_up</mat-icon>&nbsp;Previous
+        </button>
+        <button *ngIf="!l" mat-button color="accent" (click)="nextStep()">
+          Next&nbsp;<mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+        <button *ngIf="l" mat-button color="accent" (click)="nextStep()">End</button>
+        <button mat-button color="primary" [routerLink]="['/projects/phases', project.id]">
+          Phases&nbsp;<mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <div fxFlex="15%" fxFlex.xs="0%"></div>
+</div>

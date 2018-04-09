@@ -14,7 +14,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './helper/navbar/navbar.component';
 import { ProfileComponent } from './user/profile/profile.component';
-import { ProjectComponent } from './project/project.component';
 import { AdminComponent } from './admin/admin.component';
 import { UserComponent } from './user/user.component';
 import { AdminService } from './admin/admin.service';
@@ -29,6 +28,9 @@ import { DialogComponent } from './helper/dialog/dialog.component';
 import { TestComponent } from './admin/test/test.component';
 import { ManageUsersComponent } from './admin/manage-users/manage-users.component';
 import { PageNotFoundComponent } from './helper/page-not-found/page-not-found.component';
+import { ProjectsComponent } from './projects/projects.component';
+import { ProjectsService } from './projects/projects.service';
+import { PhasesComponent } from './projects/phases/phases.component';
 
 
 @NgModule({
@@ -37,7 +39,6 @@ import { PageNotFoundComponent } from './helper/page-not-found/page-not-found.co
     LoginComponent,
     NavbarComponent,
     ProfileComponent,
-    ProjectComponent,
     AdminComponent,
     UserComponent,
     ContactComponent,
@@ -47,7 +48,9 @@ import { PageNotFoundComponent } from './helper/page-not-found/page-not-found.co
     DialogComponent,
     TestComponent,
     ManageUsersComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ProjectsComponent,
+    PhasesComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +63,7 @@ import { PageNotFoundComponent } from './helper/page-not-found/page-not-found.co
     AngularFirestoreModule,
     AngularFireAuthModule
   ],
-  providers: [AppService, LoginService, UserService, AdminService],
+  providers: [AppService, LoginService, UserService, AdminService, ProjectsService],
   bootstrap: [AppComponent],
   entryComponents: [ DialogComponent ]
 })

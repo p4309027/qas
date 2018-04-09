@@ -40,7 +40,7 @@
             </span>
           </mat-select-trigger>
           <mat-option *ngFor="let manager of projectManagers"
-            [value]="{email:manager.email, name: manager.firstName + ' ' + manager.lastName}">
+            [value]="{uid:manager.uid, email:manager.email, name: manager.firstName + ' ' + manager.lastName}">
             {{manager.firstName}} {{manager.lastName}}
           </mat-option>
         </mat-select>
@@ -54,7 +54,7 @@
             </span>
           </mat-select-trigger>
           <mat-option *ngFor="let engineer of engineers"
-            [value]="{email:engineer.email, name: engineer.firstName + ' ' + engineer.lastName}">
+            [value]="{uid:engineer.uid, email:engineer.email, name: engineer.firstName + ' ' + engineer.lastName}">
             {{engineer.firstName}} {{engineer.lastName}}
           </mat-option>
         </mat-select>

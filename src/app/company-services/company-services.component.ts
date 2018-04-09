@@ -1,7 +1,4 @@
-import { Router } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
+import { Component, OnInit } from '@angular/core';
 import { AppService } from '../app.service';
 
 @Component({
@@ -9,15 +6,13 @@ import { AppService } from '../app.service';
   templateUrl: './company-services.component.html',
   styleUrls: ['./company-services.component.css']
 })
-export class CompanyServicesComponent implements OnInit, OnDestroy {
+export class CompanyServicesComponent implements OnInit {
   step = 0;
   services = [];
-  private ngUnsubscribe: Subject<any> = new Subject();
   spinner = true;
 
   constructor(
-    private appService: AppService,
-    private router: Router
+    private appService: AppService
   ) { }
 
   ngOnInit() {
@@ -38,11 +33,6 @@ export class CompanyServicesComponent implements OnInit, OnDestroy {
 
   prevStep() {
     this.step--;
-  }
-
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 
 }

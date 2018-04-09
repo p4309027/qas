@@ -13,7 +13,7 @@
           {{service.description}}
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <div fxLayout="row" fxLayout.lt-sm="column">
+      <div fxLayout="row" fxLayout.lt-sm="column" class="panel-body">
           <div fxFlex>
             <img src="assets/company-services/{{service.img}}.jpg" alt="{{service.name}}" >
           </div>
@@ -23,8 +23,12 @@
           </div>
       </div>
       <mat-action-row>
-        <button *ngIf="i !== 0" mat-button color="warn" (click)="prevStep()">Previous</button>
-        <button *ngIf="!l" mat-button color="primary" (click)="nextStep()">Next</button>
+        <button *ngIf="i !== 0" mat-button color="warn" (click)="prevStep()">
+          <mat-icon>keyboard_arrow_up</mat-icon>&nbsp;Previous
+        </button>
+        <button *ngIf="!l" mat-button color="primary" (click)="nextStep()">
+          Next&nbsp;<mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
         <button *ngIf="l" mat-button color="primary" (click)="nextStep()">End</button>
       </mat-action-row>
     </mat-expansion-panel>

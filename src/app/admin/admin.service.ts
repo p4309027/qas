@@ -27,17 +27,19 @@ export class AdminService {
   getProjectManagers() {
     return this.afs.collection(
       'users-profile', ref => ref.where('role', '==', 'project manager')
-    ).valueChanges();
+    ).snapshotChanges();
   }
 
   getEngineers() {
     return this.afs.collection(
       'users-profile', ref => ref.where('role', '==', 'engineer')
-    ).valueChanges();
+    ).snapshotChanges();
   }
 
   getProjects() {
-    return this.afs.collection('projects').valueChanges();
+    return this.afs.collection(
+      'projects', ref => ref.orderBy('createdAt', 'asc')
+    ).valueChanges();
   }
 
   saveProjects(project, phaseObj, phase) {

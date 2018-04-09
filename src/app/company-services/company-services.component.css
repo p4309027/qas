@@ -12,3 +12,24 @@ mat-spinner {
   display: block;
   margin: auto;
 }
+
+mat-expansion-panel-header {
+  font-size: 16px;
+  background-color: #C5CAE9 !important; /* #68efad - secondary green , aquamarine , #90a4ae - secondary blue grey */
+}
+
+mat-expansion-panel-header:hover {
+  background-color: #b3b9e2 !important;  /* #51eda0 , #66ffcb, #8198a3 */
+}
+
+mat-panel-title {
+  font-weight: 500;
+}
+
+mat-action-row {
+  background-color: #fafafa !important;
+}
+
+.panel-body {
+  margin-top: 20px;
+}

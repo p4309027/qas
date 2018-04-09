@@ -1,0 +1,33 @@
+mat-spinner {
+    display: block;
+    margin: auto;
+}
+
+mat-expansion-panel-header {
+    font-size: 16px;
+    background-color: #C5CAE9 !important;
+}
+
+mat-expansion-panel-header:hover {
+    background-color: #b3b9e2 !important;
+}
+
+mat-panel-title {
+    font-weight: 500;
+}
+
+mat-action-row {
+    background-color: #fafafa !important;
+}
+
+.panel {
+    padding-top: 8px;
+    display: block;
+    font-weight: 400;
+}
+
+.panel-child {
+    min-height: 48px;
+    font-size: 16px;
+    padding: 8px 0px;
+}

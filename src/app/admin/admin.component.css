@@ -1,6 +1,12 @@
 div > a {
     text-decoration: none;
 }
+
+mat-card {
+    background-color: #C5CAE9;
+}
+
 mat-card-title {
     text-align: center;
+    font-weight: 500;
 }

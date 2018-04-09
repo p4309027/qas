@@ -62,7 +62,7 @@ export class ManageProjectsComponent implements OnInit, OnDestroy {
   arrayToCustomObject(array: any) {
     const obj = {};
     array.forEach(element => {
-      obj[element.email] = true;
+      obj[element.uid] = element.email;
     });
     return obj;
   }
@@ -76,14 +76,22 @@ export class ManageProjectsComponent implements OnInit, OnDestroy {
 
     this.adminService.getEngineers()
       .takeUntil(this.ngUnsubscribe)
-      .subscribe(data => {
-        this.engineers = data;
+      .subscribe((data: any) => {
+        data.map(d => {
+          const engineer = d.payload.doc.data();
+          engineer.uid = d.payload.doc.id;
+          this.engineers.push(engineer);
+        });
       });
 
     this.adminService.getProjectManagers()
       .takeUntil(this.ngUnsubscribe)
-      .subscribe(data => {
-        this.projectManagers = data;
+      .subscribe((data: any) => {
+        data.map(d => {
+          const pm = d.payload.doc.data();
+          pm.uid = d.payload.doc.id;
+          this.projectManagers.push(pm);
+        });
         this.spinnerForm = false;
       });
 
@@ -126,6 +134,9 @@ export class ManageProjectsComponent implements OnInit, OnDestroy {
       currentPhase: 1,
       status: 'Active',
       activePhase: 'phase1',
+      phases: {
+        phase1: 'phase1'
+      },
       completedPhases: []
     };
 

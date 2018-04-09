@@ -1,1 +1,12 @@
-
+mat-card-title > h3 {
+    background-color: #C5CAE9;
+    margin: -24px -24px 48px;
+    padding: 1em 24px;
+    font-weight: 500;
+  }
+  
+  @media (max-width: 599px) {
+    mat-card-title > h3 {
+        margin: -24px -18px 48px;
+    }
+  }

@@ -9,5 +9,5 @@ export interface UserProfile {
   email: string;
   role: string;
   projects?: Array<string>;
-  uId?: string;
+  uid?: string;
 }

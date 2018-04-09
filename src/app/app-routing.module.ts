@@ -9,12 +9,16 @@ import { ManageServicesComponent } from './admin/manage-services/manage-services
 import { ManageProjectsComponent } from './admin/manage-projects/manage-projects.component';
 import { ManageUsersComponent } from './admin/manage-users/manage-users.component';
 import { PageNotFoundComponent } from './helper/page-not-found/page-not-found.component';
+import { ProjectsComponent } from './projects/projects.component';
+import { PhasesComponent } from './projects/phases/phases.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full'},
   { path: 'login', component: LoginComponent},
   { path: 'user', component: UserComponent},
   { path: 'services', component: CompanyServicesComponent},
+  { path: 'projects', component: ProjectsComponent},
+  { path: 'projects/phases/:id', component: PhasesComponent},
   {
     path: 'admin', component: AdminComponent,
     children: [

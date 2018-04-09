@@ -14,19 +14,19 @@
 </mat-toolbar>
 <mat-menu #menu="matMenu">
   <button *ngIf="isAdmin" mat-menu-item routerLink="/admin" routerLinkActive="active">
-    <mat-icon>supervisor_account</mat-icon>
+    <mat-icon color="primary">supervisor_account</mat-icon>
     <span >Admin</span>
   </button>
   <button mat-menu-item routerLink="/services" routerLinkActive="active">
-    <mat-icon>grain</mat-icon>
+    <mat-icon color="primary">grain</mat-icon>
     <span >Services</span>
   </button>
-  <button mat-menu-item>
-    <mat-icon>business_center</mat-icon>
+  <button mat-menu-item routerLink="/projects" routerLinkActive="active">
+    <mat-icon color="primary">business_center</mat-icon>
     <span >Projets</span>
   </button>
   <button mat-menu-item routerLink="/user" routerLinkActive="active">
-    <mat-icon >account_circle</mat-icon>
+    <mat-icon color="primary">account_circle</mat-icon>
     <span >Profile</span>
   </button>
 </mat-menu>
