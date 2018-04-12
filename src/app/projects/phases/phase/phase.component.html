@@ -10,7 +10,8 @@
       <mat-divider></mat-divider>
       
       <mat-card-content fxLayout="column" fxLayoutAlign="space-evenly stretch" class="parent">
-        <div *ngFor="let doc of phaseDocs; let l = last;" class="child" fxLayout="column" fxLayoutAlign="space-between stretch">
+        <div *ngFor="let doc of phaseDocs; let l = last;" class="child" [ngStyle]="{'background-color': doc.username === userName? 'honeydew' : 'aliceblue'}"
+          fxLayout="column" fxLayoutAlign="space-between stretch">
           <div class="sibling-1" fxLayout="row" fxLayoutAlign="space-between center">
             <div class="sibling-1-grand-child-1">
               <mat-icon [ngStyle]="{ 'color': doc.username === userName? '#3f51b5' : '#FF4081' }">
@@ -22,10 +23,10 @@
               <span>{{doc.role}}</span>
             </div>
             <div  class="sibling-1-grand-child-2">
-              <h4>{{doc.name}}</h4>
+              <h4>{{doc.fullName}}</h4>
               <div fxLayout="row" fxLayout.xs="column">
-                <p fxFlex="50">{{doc.message}}</p>
-                <div *ngIf="doc.fileExists" fxFlex="50">
+                <p fxFlex="50" class="msg-body">{{doc.message}}</p>
+                <div *ngIf="doc.file" fxFlex="50" class="msg-body file-body">
                   <div *ngIf="(doc.file.downloadURL | async) as url">
                     <div *ngIf="doc.file.fileType === 'image'">
                       <img [src]="url" alt="{{doc.file.name}}" >

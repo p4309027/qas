@@ -64,12 +64,13 @@ export class PhaseComponent implements OnInit, OnDestroy {
         this.projectsService.getPhaseDocs(this.id, this.phase)
           .takeUntil(this.ngUnsubscribe)
           .subscribe( docs => {
-            console.log(docs);
+            // check each doc inside array list of docs
+            // whether it has file in there
+            // if yes, get the path of the file
+            // and use it to get the file's 'Storage' downloadable link
             docs.map( (doc: any) => {
               if (doc.file) {
-                doc.fileExists = true;
                 doc.file.downloadURL = this.storage.ref(doc.file.path).getDownloadURL();
-                console.log(this.storage.ref(doc.file.path).getDownloadURL());
               }
             });
             this.phaseDocs = docs;
@@ -99,23 +100,34 @@ export class PhaseComponent implements OnInit, OnDestroy {
 
     this.task.snapshotChanges()
       .subscribe( snap => {
+        // checking if a file fully transferred
         if (snap.bytesTransferred === snap.totalBytes) {
-          // Update firestore on completion
-          this.db.collection('projects').doc(this.id).collection(this.phase).add({
-            createdAt: this.timestamp,
-            username: this.userName,
-            message: `${this.user.firstName} has been uploaded ${file.name}`,
-            name: `${this.user.firstName} ${this.user.lastName}`,
-            role: this.user.role,
-            file: {
-              path,
-              name: file.name,
-              fileType: fileType,
-              fileExtension: fileExtension,
-              size: snap.totalBytes
+          // once it is fully transferred
+          // take the snap of the upload
+          snap.task.then(d => {
+            // and confirm if the file has been uploaded
+            // and downloadable link has been generated
+            // if yes then update firestore with latest upload details
+            // including the path of the uploaded file for future use
+            if (d.downloadURL) {
+              // Update firestore on completion
+              this.db.collection('projects').doc(this.id).collection(this.phase).add({
+                createdAt: this.timestamp,
+                username: this.userName,
+                message: `${this.user.firstName} has been uploaded ${file.name}`,
+                fullName: `${this.user.firstName} ${this.user.lastName}`,
+                role: this.user.role,
+                file: {
+                  path,
+                  name: file.name,
+                  fileType: fileType,
+                  fileExtension: fileExtension,
+                  size: snap.totalBytes
+                }
+              }).then(() => {
+                this.progressBar = false;
+              });
             }
-          }).then(() => {
-            this.progressBar = false;
           });
         }
       });
@@ -129,7 +141,7 @@ export class PhaseComponent implements OnInit, OnDestroy {
       createdAt: this.timestamp,
       username: this.userName,
       message: msg,
-      name: `${this.user.firstName} ${this.user.lastName}`,
+      fullName: `${this.user.firstName} ${this.user.lastName}`,
       role: this.user.role
     }).then(() => {
       this.messageInput.nativeElement.value = '';

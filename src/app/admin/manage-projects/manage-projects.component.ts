@@ -142,7 +142,7 @@ export class ManageProjectsComponent implements OnInit, OnDestroy {
 
     const phaseObj = {
       username: this.admin.email,
-      name: this.admin.firstName + ' ' + this.admin.lastName,
+      fullName: this.admin.firstName + ' ' + this.admin.lastName,
       message: 'Welcome all and good luck with this project!',
       role: this.admin.role
     };
