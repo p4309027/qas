@@ -31,4 +31,15 @@ export class ProjectsService {
     }
   }
 
+  getProjectPhases(id) {
+    return this.afs.doc(`projects/${id}`).valueChanges();
+  }
+
+  getPhaseDocs(id, phase) {
+    return this.afs.collection('projects')
+      .doc(id)
+      .collection(phase, ref => ref.orderBy('createdAt', 'asc'))
+      .valueChanges();
+  }
+
 }

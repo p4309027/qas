@@ -1,0 +1,84 @@
+<mat-spinner *ngIf="spinner"></mat-spinner>
+<div *ngIf="!spinner" fxLayout="row" fxLayoutAlign="space-between stretch" >
+  <div fxFlex="10%" fxFlex.xs="0%"></div>
+
+  <div fxFlex="80%" fxFlex.xs="100%">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-subtitle>{{date | date : 'long'}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      
+      <mat-card-content fxLayout="column" fxLayoutAlign="space-evenly stretch" class="parent">
+        <div *ngFor="let doc of phaseDocs; let l = last;" class="child" fxLayout="column" fxLayoutAlign="space-between stretch">
+          <div class="sibling-1" fxLayout="row" fxLayoutAlign="space-between center">
+            <div class="sibling-1-grand-child-1">
+              <mat-icon [ngStyle]="{ 'color': doc.username === userName? '#3f51b5' : '#FF4081' }">
+                account_circle
+              </mat-icon>
+              <br>
+              <span >{{doc.username}}</span>
+              <br>
+              <span>{{doc.role}}</span>
+            </div>
+            <div  class="sibling-1-grand-child-2">
+              <h4>{{doc.name}}</h4>
+              <div fxLayout="row" fxLayout.xs="column">
+                <p fxFlex="50">{{doc.message}}</p>
+                <div *ngIf="doc.fileExists" fxFlex="50">
+                  <div *ngIf="(doc.file.downloadURL | async) as url">
+                    <div *ngIf="doc.file.fileType === 'image'">
+                      <img [src]="url" alt="{{doc.file.name}}" >
+                    </div>
+                    <div *ngIf="doc.file.fileType === 'video'">
+                      <video controls>
+                        <source [src]="url" type="video/{{doc.file.fileExtension}}">
+                        Your browser does not support HTML5 video.
+                      </video>                    
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sibling-1-grand-child-3">
+              <span >{{doc.createdAt | date : 'short'}}</span>
+            </div>
+          </div>
+          <div *ngIf="!l" class="sibling-2" fxLayout="row" fxLayoutAlign="space-between center">
+            <div class="sibling-2-grand-child-1"></div>
+            <div class="sibling-2-grand-child-2"></div>
+          </div>
+        </div>
+      </mat-card-content>
+      
+      <mat-divider></mat-divider>
+      <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxFlex="10%" fxFlex.xs="15%">
+          <div *ngIf="!progressBar">
+            <button mat-icon-button color="foreground" (click)="fileInput.click()">
+              <mat-icon>attach_file</mat-icon>
+            </button>
+            <input hidden type="file" #fileInput (change)="uploadFile($event)"/>
+          </div>
+          <div *ngIf="progressBar">
+            <div *ngIf="(percentage | async) as pct">
+              <mat-progress-bar color="primary" [value]="pct" mode="determinate"></mat-progress-bar>
+              <br>
+              {{pct.toFixed(2)}}%
+            </div>
+          </div>
+        </div>
+        <div fxFlex="5%" fxFlex.xs="10%"></div>
+        <mat-form-field fxFlex="75%" fxFlex.xs="60%" >
+          <textarea matInput placeholder="Leave a message" #msg></textarea>
+        </mat-form-field>
+        <button fxFlex="10%" fxFlex.xs="15%" mat-icon-button
+          color="primary" [disabled]="progressBar" (click)="onSend(msg.value)">
+          <mat-icon >send</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div fxFlex="10%" fxFlex.xs="0%"></div>
+</div>

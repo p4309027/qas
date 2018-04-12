@@ -13,7 +13,8 @@ import {
   MatDialogModule,
   MatProgressSpinnerModule,
   MatTableModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatProgressBarModule
 } from '@angular/material';
 
 const appMaterialModules: any[] = [
@@ -30,7 +31,8 @@ const appMaterialModules: any[] = [
   MatDialogModule,
   MatProgressSpinnerModule,
   MatTableModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatProgressBarModule
 ];
 
 @NgModule({

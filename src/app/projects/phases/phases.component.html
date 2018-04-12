@@ -1,6 +1,22 @@
-<p>
-  phases works!
-</p>
-<p>
-  {{test}}
-</p>
+<mat-spinner *ngIf="spinner"></mat-spinner>
+<div *ngIf="!spinner" fxLayout="row" fxLayoutAlign="space-between none" >
+  <div fxFlex="15%" fxFlex.xs="0%"></div>
+  <mat-card fxFlex="70%" fxFlex.xs="100%">
+    <mat-card-title>
+      <h3>
+        <mat-icon >view_list&nbsp;</mat-icon>
+        Phases of the '{{project.projectName}}'
+      </h3>
+    </mat-card-title>
+    <mat-list >
+      <div *ngFor="let phase of phases; let l = last;">
+        <mat-list-item [routerLink]="['/projects', project.id, 'phases', phase]">
+          {{phase}}&nbsp;
+          <mat-icon color="accent">keyboard_arrow_right</mat-icon>
+        </mat-list-item>
+        <mat-divider *ngIf="!l"></mat-divider>
+      </div>
+    </mat-list>
+  </mat-card>
+  <div fxFlex="15%" fxFlex.xs="0%"></div>
+</div>

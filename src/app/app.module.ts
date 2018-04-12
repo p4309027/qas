@@ -5,10 +5,11 @@ import { AppMaterialModule } from './app-material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
+import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireStorageModule } from 'angularfire2/storage';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -25,12 +26,12 @@ import { CompanyServicesComponent } from './company-services/company-services.co
 import { ManageServicesComponent } from './admin/manage-services/manage-services.component';
 import { ManageProjectsComponent } from './admin/manage-projects/manage-projects.component';
 import { DialogComponent } from './helper/dialog/dialog.component';
-import { TestComponent } from './admin/test/test.component';
 import { ManageUsersComponent } from './admin/manage-users/manage-users.component';
 import { PageNotFoundComponent } from './helper/page-not-found/page-not-found.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { ProjectsService } from './projects/projects.service';
 import { PhasesComponent } from './projects/phases/phases.component';
+import { PhaseComponent } from './projects/phases/phase/phase.component';
 
 
 @NgModule({
@@ -46,11 +47,11 @@ import { PhasesComponent } from './projects/phases/phases.component';
     ManageServicesComponent,
     ManageProjectsComponent,
     DialogComponent,
-    TestComponent,
     ManageUsersComponent,
     PageNotFoundComponent,
     ProjectsComponent,
-    PhasesComponent
+    PhasesComponent,
+    PhaseComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +62,8 @@ import { PhasesComponent } from './projects/phases/phases.component';
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFireStorageModule
   ],
   providers: [AppService, LoginService, UserService, AdminService, ProjectsService],
   bootstrap: [AppComponent],

@@ -1,0 +1,100 @@
+mat-spinner {
+    display: block;
+    margin: auto;
+}
+
+mat-card-header {
+    background-color: #C5CAE9;
+    margin: -24px -24px 0 !important;
+    border-radius: 2px;
+    padding: 24px;
+}
+
+.parent {
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.child {
+    padding-bottom: 12px;
+}
+
+.sibling-1, .sibling-2 {
+    width: 100%;
+}
+
+.sibling-2 {
+    margin-top: 20px;
+}
+
+.sibling-1-grand-child-1 {
+    width: 20%;
+    float: left;
+}
+
+.sibling-1-grand-child-2 {
+    width: 70%;
+    text-align: left;
+    padding-right: 10px;
+}
+
+.sibling-1-grand-child-3 {
+    width: 10%;
+    float: right;
+    text-align: right;
+}
+
+.sibling-1-grand-child-1 span, .sibling-1-grand-child-3 span {
+    color: #757575; 
+}
+
+.sibling-1-grand-child-1 mat-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 48px;
+}
+
+.sibling-2-grand-child-1 {
+    width: 20%;
+}
+
+.sibling-2-grand-child-2 {
+    width: 80%;
+    border-bottom: 1px solid rgba(0,0,0,.12);
+}
+
+mat-card-actions {
+    min-height: 90px;
+    background-color: #FAFAFA;
+    margin: 0 -24px -24px !important;
+    border-radius: 2px;
+    padding: 24px;
+}
+
+img, video {
+    width: 100%;
+}
+
+@media (max-width: 599px) {
+    .parent {
+        margin-top: 30px;
+    }
+    .sibling-1-grand-child-1 {
+        width: 30%;
+    }    
+    .sibling-1-grand-child-2 {
+        width: 55%;
+    }    
+    .sibling-1-grand-child-3 {
+        width: 15%;
+    }
+    .sibling-2-grand-child-1 {
+        width: 30%;
+    }
+    .sibling-2-grand-child-2 {
+        width: 70%;
+    }
+    .sibling-1-grand-child-1 span, .sibling-1-grand-child-3 span {
+        font-size: 12px;
+    }
+}

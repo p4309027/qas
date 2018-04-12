@@ -11,6 +11,7 @@ import { ManageUsersComponent } from './admin/manage-users/manage-users.componen
 import { PageNotFoundComponent } from './helper/page-not-found/page-not-found.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { PhasesComponent } from './projects/phases/phases.component';
+import { PhaseComponent } from './projects/phases/phase/phase.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -18,7 +19,8 @@ const routes: Routes = [
   { path: 'user', component: UserComponent},
   { path: 'services', component: CompanyServicesComponent},
   { path: 'projects', component: ProjectsComponent},
-  { path: 'projects/phases/:id', component: PhasesComponent},
+  { path: 'projects/:id/phases', component: PhasesComponent},
+  { path: 'projects/:id/phases/:phase', component: PhaseComponent},
   {
     path: 'admin', component: AdminComponent,
     children: [
