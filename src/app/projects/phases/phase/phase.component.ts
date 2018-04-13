@@ -8,6 +8,8 @@ import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage'
 import { Observable } from 'rxjs/Observable';
 import { AngularFirestore } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
+import {MatDialog} from '@angular/material';
+import { ConfirmationDialogComponent } from '../../../helper/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-phase',
@@ -40,7 +42,8 @@ export class PhaseComponent implements OnInit, OnDestroy {
     private loginService: LoginService,
     private projectsService: ProjectsService,
     private storage: AngularFireStorage,
-    private db: AngularFirestore
+    private db: AngularFirestore,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -156,6 +159,17 @@ export class PhaseComponent implements OnInit, OnDestroy {
       role: this.user.role
     }).then(() => {
       this.messageInput.nativeElement.value = '';
+    });
+  }
+
+  openConfirmationDialog() {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      height: '180px',
+      data: { projectName: this.project.projectName, phase: this.phase}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
     });
   }
 

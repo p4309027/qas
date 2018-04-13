@@ -1,0 +1,13 @@
+<div fxLayout="column" fxLayoutAlign="space-evenly none">
+  <p fxFlexAlign="center" fxFlexOffset="25px">
+    Please confirm to close the <strong>{{data.phase}}</strong> of the <strong>{{data.projectName}}</strong> project
+  </p>
+  <div fxLayout="row" fxLayoutAlign="space-evenly center" fxFlexAlign="end" fxFlexOffset="25px">
+    <button mat-button color="warn" [mat-dialog-close]="true">
+      Confirm
+    </button>
+    <button mat-button [mat-dialog-close]="false">
+      Cancel
+    </button>
+  </div>
+</div>

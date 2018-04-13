@@ -4,9 +4,9 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { UserAuthData } from './../helper/models/user.model';
 import { MatDialog } from '@angular/material';
-import { DialogComponent } from '../helper/dialog/dialog.component';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ServerResponseDialogComponent } from '../helper/dialogs/server-response-dialog/server-response-dialog.component';
 
 @Injectable()
 export class LoginService {
@@ -21,7 +21,7 @@ export class LoginService {
   ) { }
 
   openDialog(err) {
-    this.dialog.open( DialogComponent, {
+    this.dialog.open( ServerResponseDialogComponent, {
       height: '180px',
       data: { messageForDialog: err.message}
     });

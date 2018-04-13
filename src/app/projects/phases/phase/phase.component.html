@@ -11,7 +11,7 @@
           <span class="custom-caption">current phase - {{project?.currentPhase}}</span>
         </div>
         <div class="header-right">
-          <button *ngIf="phaseClose" mat-button color="warn" (click)="onPhaseClose()">
+          <button *ngIf="phaseClose" mat-button color="warn" (click)="openConfirmationDialog()">
             <mat-icon>warning</mat-icon>&nbsp;Close this phase
           </button>
         </div>

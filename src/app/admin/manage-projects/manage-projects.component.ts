@@ -7,8 +7,8 @@ import 'rxjs/add/operator/takeUntil';
 import { LoginService } from '../../login/login.service';
 import { UserProfile } from '../../helper/models/user.model';
 import { MatDialog } from '@angular/material';
-import { DialogComponent } from '../../helper/dialog/dialog.component';
 import { Router } from '@angular/router';
+import { ServerResponseDialogComponent } from '../../helper/dialogs/server-response-dialog/server-response-dialog.component';
 
 
 @Component({
@@ -153,7 +153,7 @@ export class ManageProjectsComponent implements OnInit, OnDestroy {
       .then( data => {
         if (data.id) {
           this.spinnerSetUp = false;
-          this.dialog.open( DialogComponent, {
+          this.dialog.open( ServerResponseDialogComponent, {
             height: '180px',
             data: { messageForDialog: 'New Project has been successfully set up'}
           });

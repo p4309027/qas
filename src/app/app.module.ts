@@ -25,13 +25,14 @@ import { ContactComponent } from './user/contact/contact.component';
 import { CompanyServicesComponent } from './company-services/company-services.component';
 import { ManageServicesComponent } from './admin/manage-services/manage-services.component';
 import { ManageProjectsComponent } from './admin/manage-projects/manage-projects.component';
-import { DialogComponent } from './helper/dialog/dialog.component';
 import { ManageUsersComponent } from './admin/manage-users/manage-users.component';
 import { PageNotFoundComponent } from './helper/page-not-found/page-not-found.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { ProjectsService } from './projects/projects.service';
 import { PhasesComponent } from './projects/phases/phases.component';
 import { PhaseComponent } from './projects/phases/phase/phase.component';
+import { ConfirmationDialogComponent } from './helper/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { ServerResponseDialogComponent } from './helper/dialogs/server-response-dialog/server-response-dialog.component';
 
 
 @NgModule({
@@ -46,12 +47,13 @@ import { PhaseComponent } from './projects/phases/phase/phase.component';
     CompanyServicesComponent,
     ManageServicesComponent,
     ManageProjectsComponent,
-    DialogComponent,
     ManageUsersComponent,
     PageNotFoundComponent,
     ProjectsComponent,
     PhasesComponent,
-    PhaseComponent
+    PhaseComponent,
+    ConfirmationDialogComponent,
+    ServerResponseDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -67,6 +69,6 @@ import { PhaseComponent } from './projects/phases/phase/phase.component';
   ],
   providers: [AppService, LoginService, UserService, AdminService, ProjectsService],
   bootstrap: [AppComponent],
-  entryComponents: [ DialogComponent ]
+  entryComponents: [ ConfirmationDialogComponent, ServerResponseDialogComponent]
 })
 export class AppModule { }
