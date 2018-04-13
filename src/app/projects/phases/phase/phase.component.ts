@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 import { ProjectsService } from '../../projects.service';
@@ -36,6 +36,7 @@ export class PhaseComponent implements OnInit, OnDestroy {
   spinner = true;
   progressBar = false;
   phaseClose = false;
+  active = true;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -43,7 +44,8 @@ export class PhaseComponent implements OnInit, OnDestroy {
     private projectsService: ProjectsService,
     private storage: AngularFireStorage,
     private db: AngularFirestore,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -89,6 +91,10 @@ export class PhaseComponent implements OnInit, OnDestroy {
           .subscribe((project: any) => {
             this.project = project;
             this.project.id = this.id;
+            if (project.activePhase !== this.phase) {
+              this.active = false;
+              this.phaseClose = false;
+            }
           });
       });
   }
@@ -169,11 +175,38 @@ export class PhaseComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.onPhaseClose();
+      }
     });
   }
 
-  onPhaseClose() {}
+  onPhaseClose() {
+    this.spinner = true;
+    const newPhase = 'phase' + (this.project.currentPhase + 1);
+    const newPhaseObject = {
+      activePhase: newPhase,
+      completedPhases: this.project.completedPhases,
+      currentPhase: this.project.currentPhase + 1,
+      phases: this.project.phases
+    };
+    newPhaseObject.completedPhases.push(this.project.activePhase);
+    newPhaseObject.phases[newPhase] = newPhase;
+    this.db.collection('projects').doc(this.project.id).update(newPhaseObject)
+      .then(() => {
+        this.active = false;
+        this.phaseClose = false;
+        this.db.collection('projects').doc(this.id).collection(newPhase).add({
+          createdAt: this.timestamp,
+          username: this.userName,
+          message: `Welcome to ${newPhase}`,
+          fullName: `${this.user.firstName} ${this.user.lastName}`,
+          role: this.user.role
+        }).then(() => {
+          this.router.navigate([`/projects/${this.project.id}/phases`]);
+        });
+      });
+  }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();

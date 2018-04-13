@@ -65,7 +65,7 @@
       </mat-card-content>
       
       <mat-divider></mat-divider>
-      <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
+      <mat-card-actions *ngIf="active" fxLayout="row" fxLayoutAlign="space-between center">
         
         <mat-form-field fxFlex="90%" fxFlex.xs="80%" >
           <textarea matInput placeholder="Leave a message" #msg></textarea>
