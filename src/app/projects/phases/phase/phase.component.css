@@ -1,3 +1,7 @@
+mat-card {
+    padding: 0px !important;
+}
+
 mat-spinner {
     display: block;
     margin: auto;
@@ -5,26 +9,39 @@ mat-spinner {
 
 mat-card-header {
     background-color: #C5CAE9;
-    margin: -24px -24px 0 !important;
     border-radius: 2px;
     padding: 24px;
 }
 
-.parent {
-    margin-top: 50px;
-    margin-bottom: 30px;
+.header-left, .header-right {
+    display: block;
+    width: 50%;
 }
 
-.child {
-    padding-bottom: 12px;
+.header-right button {
+    float: right;
+}
+
+.header-title {
+    font-weight: 500;
+    font-size: 1em;
+}
+
+.custom-caption {
+    color: rgba(0,0,0,.54);
+    font-size: 14px;
+}
+
+.parent {
+    margin-bottom: 0;
 }
 
 .sibling-1, .sibling-2 {
     width: 100%;
 }
 
-.sibling-2 {
-    margin-top: 20px;
+.sibling-1 {
+    padding: 0px 24px;
 }
 
 .sibling-1-grand-child-1 {
@@ -73,19 +90,22 @@ mat-card-header {
 mat-card-actions {
     min-height: 90px;
     background-color: #FAFAFA;
-    margin: 0 -24px -24px !important;
     border-radius: 2px;
     padding: 24px;
+    margin: 0;
+}
+
+video{
+    object-fit: initial;
 }
 
 img, video {
     width: 100%;
+    max-height: 200px;
+    border-radius: 2px;
 }
 
 @media (max-width: 599px) {
-    .parent {
-        margin-top: 30px;
-    }
     .sibling-1-grand-child-1 {
         width: 30%;
     }    
@@ -103,5 +123,8 @@ img, video {
     }
     .sibling-1-grand-child-1 span, .sibling-1-grand-child-3 span {
         font-size: 12px;
+    }
+    img, video {
+        height: auto;
     }
 }

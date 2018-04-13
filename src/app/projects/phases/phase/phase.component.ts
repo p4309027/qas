@@ -30,9 +30,10 @@ export class PhaseComponent implements OnInit, OnDestroy {
   phaseDocs: any;
   userName: string;
   user: any;
-  date = new Date();
+  project: any;
   spinner = true;
   progressBar = false;
+  phaseClose = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -52,6 +53,10 @@ export class PhaseComponent implements OnInit, OnDestroy {
             .takeUntil(this.ngUnsubscribe)
             .subscribe ( user => {
               this.user = {...user[0].payload.doc.data()};
+              const role = user[0].payload.doc.data().role;
+              if (role === 'admin' || role === 'project manager') {
+                this.phaseClose = true;
+              }
             });
         }
       });
@@ -75,6 +80,12 @@ export class PhaseComponent implements OnInit, OnDestroy {
             });
             this.phaseDocs = docs;
             this.spinner = false;
+          });
+        this.projectsService.getProject(this.id)
+          .takeUntil(this.ngUnsubscribe)
+          .subscribe((project: any) => {
+            this.project = project;
+            this.project.id = this.id;
           });
       });
   }
@@ -147,6 +158,8 @@ export class PhaseComponent implements OnInit, OnDestroy {
       this.messageInput.nativeElement.value = '';
     });
   }
+
+  onPhaseClose() {}
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();

@@ -27,7 +27,7 @@ export class PhasesComponent implements OnInit, OnDestroy {
       .subscribe( params => {
         this.id = params['id'];
         if (this.id) {
-          this.projectsService.getProjectPhases(this.id)
+          this.projectsService.getProject(this.id)
           .takeUntil(this.ngUnsubscribe)
           .subscribe((project: any) => {
             this.project = project;

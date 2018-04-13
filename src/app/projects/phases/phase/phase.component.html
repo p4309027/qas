@@ -4,8 +4,17 @@
 
   <div fxFlex="80%" fxFlex.xs="100%">
     <mat-card>
-      <mat-card-header>
-        <mat-card-subtitle>{{date | date : 'long'}}</mat-card-subtitle>
+      <mat-card-header >
+        <div class="header-left">
+          <span class="header-title">{{project?.projectName}}</span>
+          <br>
+          <span class="custom-caption">current phase - {{project?.currentPhase}}</span>
+        </div>
+        <div class="header-right">
+          <button *ngIf="phaseClose" mat-button color="warn" (click)="onPhaseClose()">
+            <mat-icon>warning</mat-icon>&nbsp;Close this phase
+          </button>
+        </div>
       </mat-card-header>
       <mat-divider></mat-divider>
       
@@ -28,10 +37,10 @@
                 <p fxFlex="50" class="msg-body">{{doc.message}}</p>
                 <div *ngIf="doc.file" fxFlex="50" class="msg-body file-body">
                   <div *ngIf="(doc.file.downloadURL | async) as url">
-                    <div *ngIf="doc.file.fileType === 'image'">
+                    <div *ngIf="doc.file.fileType === 'image'" >
                       <img [src]="url" alt="{{doc.file.name}}" >
                     </div>
-                    <div *ngIf="doc.file.fileType === 'video'">
+                    <div *ngIf="doc.file.fileType === 'video'" >
                       <video controls>
                         <source [src]="url" type="video/{{doc.file.fileExtension}}">
                         Your browser does not support HTML5 video.
@@ -41,8 +50,10 @@
                 </div>
               </div>
             </div>
-            <div class="sibling-1-grand-child-3">
-              <span >{{doc.createdAt | date : 'short'}}</span>
+            <div class="sibling-1-grand-child-3" class="custom-caption">
+              <p >{{doc.createdAt | date : 'HH:mm:ss'}}</p>
+              <p >{{doc.createdAt | date : 'dd MMM yy'}}</p>
+              <p >{{doc.createdAt | date : 'z'}}</p>
             </div>
           </div>
           <div *ngIf="!l" class="sibling-2" fxLayout="row" fxLayoutAlign="space-between center">

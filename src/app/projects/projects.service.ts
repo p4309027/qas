@@ -31,7 +31,7 @@ export class ProjectsService {
     }
   }
 
-  getProjectPhases(id) {
+  getProject(id) {
     return this.afs.doc(`projects/${id}`).valueChanges();
   }
 
