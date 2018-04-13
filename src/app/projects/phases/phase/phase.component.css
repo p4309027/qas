@@ -36,21 +36,26 @@ mat-card-header {
     margin-bottom: 0;
 }
 
+.child:last-child {
+    padding-bottom: 1.5em;
+}
+
 .sibling-1, .sibling-2 {
     width: 100%;
 }
 
 .sibling-1 {
-    padding: 0px 24px;
+    padding: 24px;
 }
 
 .sibling-1-grand-child-1 {
     width: 20%;
     float: left;
+    margin-right: 16px;
 }
 
 .sibling-1-grand-child-2 {
-    width: 70%;
+    width: 80%;
     text-align: left;
 }
 
@@ -62,14 +67,12 @@ mat-card-header {
     margin: 1em 0;
 }
 
-.sibling-1-grand-child-3 {
-    width: 10%;
-    float: right;
-    text-align: right;
+.sibling-1-grand-child-1 span {
+    color: #757575; 
 }
 
-.sibling-1-grand-child-1 span, .sibling-1-grand-child-3 span {
-    color: #757575; 
+.sibling-1-grand-child-1 .span-2 {
+    font-size: 12px; 
 }
 
 .sibling-1-grand-child-1 mat-icon {
@@ -106,22 +109,13 @@ img, video {
 }
 
 @media (max-width: 599px) {
-    .sibling-1-grand-child-1 {
-        width: 30%;
+    .sibling-1-grand-child-1, .sibling-2-grand-child-1 {
+        width: 35%;
     }    
-    .sibling-1-grand-child-2 {
-        width: 55%;
-    }    
-    .sibling-1-grand-child-3 {
-        width: 15%;
+    .sibling-1-grand-child-2, .sibling-2-grand-child-2 {
+        width: 65%;
     }
-    .sibling-2-grand-child-1 {
-        width: 30%;
-    }
-    .sibling-2-grand-child-2 {
-        width: 70%;
-    }
-    .sibling-1-grand-child-1 span, .sibling-1-grand-child-3 span {
+    .sibling-1-grand-child-1 .span-1 {
         font-size: 12px;
     }
     img, video {

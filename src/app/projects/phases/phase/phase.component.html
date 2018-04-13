@@ -27,14 +27,20 @@
                 account_circle
               </mat-icon>
               <br>
-              <span >{{doc.username}}</span>
+              <span class="span-1">{{doc.username}}</span>
               <br>
-              <span>{{doc.role}}</span>
+              <span class="span-1">{{doc.role}}</span>
+              <br><br>
+              <span class="span-2">{{doc.createdAt | date : 'E'}} at {{doc.createdAt | date : 'HH:mm'}},</span>
+              <br>
+              <span class="span-2">{{doc.createdAt | date : 'dd MMM yyyy'}},</span>
+              <br>
+              <span class="span-2">{{doc.createdAt | date : 'z'}}</span>
             </div>
             <div  class="sibling-1-grand-child-2">
               <h4>{{doc.fullName}}</h4>
               <div fxLayout="row" fxLayout.xs="column">
-                <p fxFlex="50" class="msg-body">{{doc.message}}</p>
+                <span fxFlex="50" class="msg-body">{{doc.message}}</span>
                 <div *ngIf="doc.file" fxFlex="50" class="msg-body file-body">
                   <div *ngIf="(doc.file.downloadURL | async) as url">
                     <div *ngIf="doc.file.fileType === 'image'" >
@@ -50,11 +56,6 @@
                 </div>
               </div>
             </div>
-            <div class="sibling-1-grand-child-3" class="custom-caption">
-              <p >{{doc.createdAt | date : 'HH:mm:ss'}}</p>
-              <p >{{doc.createdAt | date : 'dd MMM yy'}}</p>
-              <p >{{doc.createdAt | date : 'z'}}</p>
-            </div>
           </div>
           <div *ngIf="!l" class="sibling-2" fxLayout="row" fxLayoutAlign="space-between center">
             <div class="sibling-2-grand-child-1"></div>
@@ -65,29 +66,39 @@
       
       <mat-divider></mat-divider>
       <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
-        <div fxFlex="10%" fxFlex.xs="15%">
-          <div *ngIf="!progressBar">
-            <button mat-icon-button color="foreground" (click)="fileInput.click()">
-              <mat-icon>attach_file</mat-icon>
-            </button>
-            <input hidden type="file" #fileInput (change)="uploadFile($event)"/>
-          </div>
-          <div *ngIf="progressBar">
-            <div *ngIf="(percentage | async) as pct">
-              <mat-progress-bar color="primary" [value]="pct" mode="determinate"></mat-progress-bar>
-              <br>
-              {{pct.toFixed(2)}}%
-            </div>
-          </div>
-        </div>
-        <div fxFlex="5%" fxFlex.xs="10%"></div>
-        <mat-form-field fxFlex="75%" fxFlex.xs="60%" >
+        
+        <mat-form-field fxFlex="90%" fxFlex.xs="80%" >
           <textarea matInput placeholder="Leave a message" #msg></textarea>
         </mat-form-field>
-        <button fxFlex="10%" fxFlex.xs="15%" mat-icon-button
-          color="primary" [disabled]="progressBar" (click)="onSend(msg.value)">
-          <mat-icon >send</mat-icon>
-        </button>
+        
+        <div fxFlex="5%" fxFlex.xs="5%"></div>
+
+        <div fxFlex="5%" fxFlex.xs="15%">
+          <!-- upload -->
+          <div *ngIf="!msg.value">
+            <div *ngIf="!progressBar">
+              <button mat-icon-button color="foreground" (click)="fileInput.click()">
+                <mat-icon>attach_file</mat-icon>
+              </button>
+              <input hidden type="file" #fileInput (change)="uploadFile($event)"/>
+            </div>
+            <div *ngIf="progressBar">
+              <div *ngIf="(percentage | async) as pct">
+                <mat-progress-bar color="primary" [value]="pct" mode="determinate"></mat-progress-bar>
+                <br>
+                {{pct.toFixed(2)}}%
+              </div>
+            </div>
+          </div>
+          <!-- end upload -->
+          <!-- send -->
+          <div *ngIf="msg.value">
+            <button mat-icon-button color="primary" [disabled]="progressBar" (click)="onSend(msg.value)">
+              <mat-icon >send</mat-icon>
+            </button>
+          </div>
+          <!-- end send -->
+        </div>
       </mat-card-actions>
     </mat-card>
   </div>
