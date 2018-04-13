@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
+import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class ProjectsService {
@@ -20,14 +21,16 @@ export class ProjectsService {
   }
 
   getUserAssignedProjects( roleField, username, uid) {
-    if (roleField) {
+    if (roleField === 'engineers' || roleField === 'projectManagers') {
       return this.afs.collection(
         'projects', ref => ref.where(`${roleField}.${uid}`, '==', username)
       ).snapshotChanges();
-    } else {
+    } else if (roleField === 'admin') {
       return this.afs.collection(
         'projects', ref => ref.orderBy('createdAt', 'asc')
       ).snapshotChanges();
+    } else {
+      return of({});
     }
   }
 

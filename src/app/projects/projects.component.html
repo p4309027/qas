@@ -2,6 +2,7 @@
   <div fxFlex="15%" fxFlex.xs="0%"></div>
   <mat-accordion fxFlex="70%" fxFlex.xs="100%">
     <mat-spinner *ngIf="spinner"></mat-spinner>
+    <h3 *ngIf="notAssigned">You have not been assigned to a project yet, please contact to administrator</h3>
     <mat-expansion-panel
       *ngFor="let project of projects; let i = index; let l = last"
       [expanded]="step === i" (opened)="setStep(i)" hideToggle="true">

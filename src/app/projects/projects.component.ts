@@ -16,6 +16,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   projects = [];
   step = 0;
   spinner = true;
+  notAssigned = false;
 
   constructor(
     private loginService: LoginService,
@@ -37,38 +38,44 @@ export class ProjectsComponent implements OnInit, OnDestroy {
                 roleField = 'engineers';
               } else if (this.currentUser.role === 'project manager') {
                 roleField = 'projectManagers';
+              } else if (this.currentUser.role === 'admin') {
+                roleField = 'admin';
               } else {
                 roleField = null;
               }
               this.projectsService.getUserAssignedProjects(
                 roleField, this.currentUser.email, this.currentUser.uid)
                 .subscribe( (projects: any) => {
-                  // for each project within 'projects':
-                  // access to document's payload.doc.data()
-                  // store it in a new field, called 'modified'
-                  // store document id in the 'midified' field too
-                  projects.map( (p: any) => {
-                    p.modified = {...p.payload.doc.data(), id: p.payload.doc.id};
-                  });
-                  // to simplify the data:
-                  // create new arrray from 'projects's 'modified' field
-                  const projectsModified = Array.from(
-                    projects, (p: any) => p = p.modified
-                  );
-                  // sort projects by 'createdAt' time in ascending order
-                  projectsModified.sort( (a: any, b: any) => {
-                    return a.createdAt.getTime() - b.createdAt.getTime();
-                  });
-                  // followings are simplified for view (html) only
-                  // turn array of list of services into one string
-                  // turn 'engineers' & 'pms' objects into array, then
-                  // transform them into one string
-                  projectsModified.map( (p: any) => {
-                    p.serviceTypeModified = p.serviceType.join(', ');
-                    p.projectManagersModified = Object.values(p.projectManagers).join(', ');
-                    p.engineersModified = Object.values(p.engineers).join(', ');
-                  });
-                  this.projects = projectsModified;
+                  if (projects.length > 0) {
+                    // for each project within 'projects':
+                    // access to document's payload.doc.data()
+                    // store it in a new field, called 'modified'
+                    // store document id in the 'midified' field too
+                    projects.map( (p: any) => {
+                      p.modified = {...p.payload.doc.data(), id: p.payload.doc.id};
+                    });
+                    // to simplify the data:
+                    // create new arrray from 'projects's 'modified' field
+                    const projectsModified = Array.from(
+                      projects, (p: any) => p = p.modified
+                    );
+                    // sort projects by 'createdAt' time in ascending order
+                    projectsModified.sort( (a: any, b: any) => {
+                      return a.createdAt.getTime() - b.createdAt.getTime();
+                    });
+                    // followings are simplified for view (html) only
+                    // turn array of list of services into one string
+                    // turn 'engineers' & 'pms' objects into array, then
+                    // transform them into one string
+                    projectsModified.map( (p: any) => {
+                      p.serviceTypeModified = p.serviceType.join(', ');
+                      p.projectManagersModified = Object.values(p.projectManagers).join(', ');
+                      p.engineersModified = Object.values(p.engineers).join(', ');
+                    });
+                    this.projects = projectsModified;
+                  } else {
+                    this.notAssigned = true;
+                  }
                   this.spinner = false;
                 });
             });
