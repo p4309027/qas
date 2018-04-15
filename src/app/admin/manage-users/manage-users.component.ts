@@ -1,31 +1,56 @@
-import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {Component, OnInit, ViewChild, AfterViewInit, OnDestroy} from '@angular/core';
+import {MatPaginator, MatSort, MatTableDataSource, MatDialog} from '@angular/material';
+import { AdminService } from '../admin.service';
+import { Subject } from 'rxjs/Subject';
+import { UserEditDialogComponent } from '../../helper/dialogs/user-edit-dialog/user-edit-dialog.component';
 
 @Component({
   selector: 'app-manage-users',
   templateUrl: './manage-users.component.html',
   styleUrls: ['./manage-users.component.css']
 })
-export class ManageUsersComponent implements OnInit, AfterViewInit {
+export class ManageUsersComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  displayedColumns = ['id', 'name', 'progress', 'color'];
-  dataSource: MatTableDataSource<UserData>;
-  spinnerAdmin = false;
+  admin = false;
+  private ngUnsubscribe: Subject<any> = new Subject();
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  displayedColumns = ['number', 'name', 'email', 'role', 'edit'];
+  dataSource: MatTableDataSource<any>;
 
-  constructor() {
-    // Create 100 users
-    const users: UserData[] = [];
-    for (let i = 1; i <= 100; i++) { users.push(createNewUser(i)); }
+  // from original guide
+  // @ViewChild(MatPaginator) paginator: MatPaginator;
+  // @ViewChild(MatSort) sort: MatSort;
 
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
+  // https://github.com/angular/material2/issues/10205
+  private paginator: MatPaginator;
+  private sort: MatSort;
+  @ViewChild(MatSort) set matSort(ms: MatSort) {
+    this.sort = ms;
+    this.setDataSourceAttributes();
+  }
+  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
+    this.paginator = mp;
+    this.setDataSourceAttributes();
   }
 
+  constructor(
+    private adminService: AdminService,
+    public dialog: MatDialog
+  ) { }
+
   ngOnInit() {
-    setTimeout( () => { this.spinnerAdmin = true; }, 1500);
+    this.adminService.getAllUsers()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe( (users: any) => {
+        users.map((user: any) => {
+          user.modified = {...user.payload.doc.data(), uid: user.payload.doc.id};
+        });
+        const usersModified = Array.from(
+          users, (user: any) => user = user.modified
+        );
+        this.dataSource = new MatTableDataSource(usersModified);
+        this.admin = true;
+      });
   }
 
   /**
@@ -33,8 +58,19 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
    * be able to query its view for the initialized paginator and sort.
    */
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    // from original guide
+    // if (this.dataSource) {
+    //   this.dataSource.paginator = this.paginator;
+    //   this.dataSource.sort = this.sort;
+    // }
+  }
+
+  // https://github.com/angular/material2/issues/10205
+  setDataSourceAttributes() {
+    if (this.dataSource) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
   }
 
   applyFilter(filterValue: string) {
@@ -43,32 +79,19 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue;
   }
 
+  indexOf(user) {
+    return this.dataSource.data.indexOf(user) + 1;
+  }
+
+  openDialog(user) {
+    this.dialog.open( UserEditDialogComponent, {
+      width: '350px',
+      data: { ...user}
+    });
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
 }
-/** Builds and returns a new User. */
-function createNewUser(id: number): UserData {
-  const name =
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
-
-  return {
-    id: id.toString(),
-    name: name,
-    progress: Math.round(Math.random() * 100).toString(),
-    color: COLORS[Math.round(Math.random() * (COLORS.length - 1))]
-  };
-}
-
-/** Constants used to fill up our data base. */
-const COLORS = ['maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple',
-  'fuchsia', 'lime', 'teal', 'aqua', 'blue', 'navy', 'black', 'gray'];
-const NAMES = ['Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack',
-  'Charlotte', 'Theodore', 'Isla', 'Oliver', 'Isabella', 'Jasper',
-  'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'];
-
-export interface UserData {
-  id: string;
-  name: string;
-  progress: string;
-  color: string;
-}
-

@@ -14,6 +14,7 @@ import {
   MatProgressSpinnerModule,
   MatTableModule,
   MatPaginatorModule,
+  MatSortModule,
   MatProgressBarModule
 } from '@angular/material';
 
@@ -32,6 +33,7 @@ const appMaterialModules: any[] = [
   MatProgressSpinnerModule,
   MatTableModule,
   MatPaginatorModule,
+  MatSortModule,
   MatProgressBarModule
 ];
 

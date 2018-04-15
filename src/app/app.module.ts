@@ -33,6 +33,7 @@ import { PhasesComponent } from './projects/phases/phases.component';
 import { PhaseComponent } from './projects/phases/phase/phase.component';
 import { ConfirmationDialogComponent } from './helper/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ServerResponseDialogComponent } from './helper/dialogs/server-response-dialog/server-response-dialog.component';
+import { UserEditDialogComponent } from './helper/dialogs/user-edit-dialog/user-edit-dialog.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { ServerResponseDialogComponent } from './helper/dialogs/server-response-
     PhasesComponent,
     PhaseComponent,
     ConfirmationDialogComponent,
-    ServerResponseDialogComponent
+    ServerResponseDialogComponent,
+    UserEditDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -67,8 +69,18 @@ import { ServerResponseDialogComponent } from './helper/dialogs/server-response-
     AngularFireAuthModule,
     AngularFireStorageModule
   ],
-  providers: [AppService, LoginService, UserService, AdminService, ProjectsService],
+  providers: [
+    AppService,
+    LoginService,
+    UserService,
+    AdminService,
+    ProjectsService
+  ],
   bootstrap: [AppComponent],
-  entryComponents: [ ConfirmationDialogComponent, ServerResponseDialogComponent]
+  entryComponents: [
+    ConfirmationDialogComponent,
+    ServerResponseDialogComponent,
+    UserEditDialogComponent
+  ]
 })
 export class AppModule { }

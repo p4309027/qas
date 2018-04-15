@@ -55,4 +55,8 @@ export class AdminService {
     });
   }
 
+  getAllUsers() {
+    return this.afs.collection('users-profile').snapshotChanges();
+  }
+
 }

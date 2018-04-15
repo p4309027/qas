@@ -1,0 +1,26 @@
+<div fxLayout="column"  >
+  <div fxLayout="column" fxLayoutAlign="space-evenly stretch">
+    <mat-form-field >
+      <input matInput placeholder="Full name" disabled [value]="data.firstName + ' ' + data.lastName">
+    </mat-form-field>
+    <mat-form-field >
+      <input matInput placeholder="Email" disabled [value]="data.email">
+    </mat-form-field>
+    <mat-form-field >
+      <input matInput placeholder="Phone" disabled [value]="data.contact.phone">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="assign the role" #newRole>
+        <mat-option *ngFor="let role of roles" [value]="role">
+          {{ role }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  
+  <div fxLayout="row" fxLayoutAlign="space-around center" fxFlexOffset="20px">
+    <button mat-raised-button color="warn" (click)="updateRole(newRole.value)">Save</button>
+    <button mat-raised-button (click)=" onCancel()">Cancel</button>
+  </div>
+
+</div>
