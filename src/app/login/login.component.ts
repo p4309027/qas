@@ -18,20 +18,16 @@ import {
   styleUrls: ['./login.component.css'],
   animations: [
     trigger('flyInOut', [
+      // view mode
       state('in', style({opacity: 1, transform: 'translateX(0)'})),
+      // 'in' mode
       transition('void => *', [
-        style({
-          opacity: 0,
-          transform: 'translateX(-100%)'
-        }),
-        animate('.3s .7s ease-out')
+        style({ opacity: 0, transform: 'translateX(-100%)'}),
+        animate('.3s 1s ease-out')
       ]),
+      // 'out' mode
       transition('* => void', [
-        style({ marginBottom: (window.innerWidth > 599) ? '-59px' : '-115px' }),
-        animate('.3s ease-in', style({
-          opacity: 0,
-          transform: 'translateX(100%)'
-        }))
+        animate('.3s ease-in', style({opacity: 0, transform: 'translateX(100%)'}))
       ])
     ])
   ]

@@ -21,11 +21,22 @@ mat-form-field input{
   font-size: 1rem;
 }
 
+mat-card-content {
+  height: 65px;
+}
+
+form {
+  display:block;
+}
+
 @media (max-width: 550px) {
   .login-card {
     width: 300px;
   }
   mat-form-field {
     width: 100%;
+  }
+  mat-card-content {
+    height: 125px;
   }
 }
