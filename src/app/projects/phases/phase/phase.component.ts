@@ -59,7 +59,7 @@ export class PhaseComponent implements OnInit, OnDestroy {
             .subscribe ( user => {
               this.user = {...user[0].payload.doc.data()};
               const role = user[0].payload.doc.data().role;
-              if (role === 'admin' || role === 'project manager') {
+              if (this.active && (role === 'admin' || role === 'project manager')) {
                 this.phaseClose = true;
               }
             });

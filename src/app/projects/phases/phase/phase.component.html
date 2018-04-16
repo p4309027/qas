@@ -14,14 +14,16 @@
           <button *ngIf="phaseClose" mat-button color="warn" (click)="openConfirmationDialog()">
             <mat-icon>warning</mat-icon>&nbsp;Close this phase
           </button>
+          <p *ngIf="!active" style="color:#f44336; text-align: right;">This phase has been completed!</p>
         </div>
       </mat-card-header>
       <mat-divider></mat-divider>
       
       <mat-card-content fxLayout="column" fxLayoutAlign="space-evenly stretch" class="parent">
-        <div *ngFor="let doc of phaseDocs; let l = last;" class="child" [ngStyle]="{'background-color': doc.username === userName? 'honeydew' : 'aliceblue'}"
+        <div *ngFor="let doc of phaseDocs; let l = last;" class="child"
+          [ngStyle]="{'background-color': doc.username === userName? 'honeydew' : 'aliceblue'}"
           fxLayout="column" fxLayoutAlign="space-between stretch">
-          <div class="sibling-1" fxLayout="row" fxLayoutAlign="space-between center">
+          <div class="sibling-1" fxLayout="row" fxLayoutAlign="space-between start">
             <div class="sibling-1-grand-child-1">
               <mat-icon [ngStyle]="{ 'color': doc.username === userName? '#3f51b5' : '#FF4081' }">
                 account_circle
