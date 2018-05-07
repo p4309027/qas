@@ -34,6 +34,7 @@ import { PhaseComponent } from './projects/phases/phase/phase.component';
 import { ConfirmationDialogComponent } from './helper/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ServerResponseDialogComponent } from './helper/dialogs/server-response-dialog/server-response-dialog.component';
 import { UserEditDialogComponent } from './helper/dialogs/user-edit-dialog/user-edit-dialog.component';
+import { AssetViewDialogComponent } from './helper/dialogs/asset-view-dialog/asset-view-dialog.component';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { UserEditDialogComponent } from './helper/dialogs/user-edit-dialog/user-
     PhaseComponent,
     ConfirmationDialogComponent,
     ServerResponseDialogComponent,
-    UserEditDialogComponent
+    UserEditDialogComponent,
+    AssetViewDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +82,8 @@ import { UserEditDialogComponent } from './helper/dialogs/user-edit-dialog/user-
   entryComponents: [
     ConfirmationDialogComponent,
     ServerResponseDialogComponent,
-    UserEditDialogComponent
+    UserEditDialogComponent,
+    AssetViewDialogComponent
   ]
 })
 export class AppModule { }

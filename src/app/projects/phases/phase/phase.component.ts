@@ -10,6 +10,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
 import {MatDialog} from '@angular/material';
 import { ConfirmationDialogComponent } from '../../../helper/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { AssetViewDialogComponent } from '../../../helper/dialogs/asset-view-dialog/asset-view-dialog.component';
 
 @Component({
   selector: 'app-phase',
@@ -178,6 +179,13 @@ export class PhaseComponent implements OnInit, OnDestroy {
       if (result) {
         this.onPhaseClose();
       }
+    });
+  }
+
+  openAssetViewDialog(fileType, url, extension?) {
+    this.dialog.open( AssetViewDialogComponent, {
+      id: 'asset-view-dialog',
+      data: { fileType: fileType, url: url, fileExtension: extension}
     });
   }
 

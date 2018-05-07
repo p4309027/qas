@@ -1,0 +1,12 @@
+<mat-icon color="warn" (click)="onClose()">close</mat-icon>
+
+<div *ngIf="data.fileType === 'image'" >
+  <img src="{{data.url}}" >
+</div>
+
+<div *ngIf="data.fileType === 'video'" >
+  <video controls >
+    <source src="{{data.url}}" type="video/{{data.fileExtension}}">
+    Your browser does not support HTML5 video.
+  </video>                    
+</div>

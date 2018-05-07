@@ -1,0 +1,9 @@
+mat-icon {
+    float: right;
+    margin-top: -24px;
+    margin-right: -24px;
+}
+
+img, video {
+    width: 100%;
+}

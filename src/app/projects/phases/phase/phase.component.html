@@ -46,10 +46,10 @@
                 <div *ngIf="doc.file" fxFlex="50" class="msg-body file-body">
                   <div *ngIf="(doc.file.downloadURL | async) as url">
                     <div *ngIf="doc.file.fileType === 'image'" >
-                      <img [src]="url" alt="{{doc.file.name}}" >
+                      <img [src]="url" alt="{{doc.file.name}}" (click)="openAssetViewDialog('image', url)">
                     </div>
                     <div *ngIf="doc.file.fileType === 'video'" >
-                      <video controls>
+                      <video controls (click)="openAssetViewDialog('video', url, doc.file.fileExtension)">
                         <source [src]="url" type="video/{{doc.file.fileExtension}}">
                         Your browser does not support HTML5 video.
                       </video>                    

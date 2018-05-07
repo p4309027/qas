@@ -34,3 +34,7 @@ input {
   color: #d50000;
   padding: 12px;
 }
+
+#asset-view-dialog {
+  background: #fafafa;
+}
