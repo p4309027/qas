@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '../app.service';
+import { AngularFireStorage } from 'angularfire2/storage';
+import { MatDialog } from '@angular/material';
+import { AssetViewDialogComponent } from '../helper/dialogs/asset-view-dialog/asset-view-dialog.component';
 
 @Component({
   selector: 'app-company-services',
@@ -12,13 +15,20 @@ export class CompanyServicesComponent implements OnInit {
   spinner = true;
 
   constructor(
-    private appService: AppService
+    private appService: AppService,
+    private storage: AngularFireStorage,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
     this.appService.getCompanyServices()
-      .subscribe(data => {
-        this.services = data;
+      .subscribe(services => {
+        services.map( (service: any) => {
+          if (service.imgUrl) {
+            service.imgUrl = this.storage.ref(service.imgUrl).getDownloadURL();
+          }
+        });
+        this.services = services;
         this.spinner = false;
       });
   }
@@ -33,6 +43,13 @@ export class CompanyServicesComponent implements OnInit {
 
   prevStep() {
     this.step--;
+  }
+
+  openAssetViewDialog(fileType, url, extension?) {
+    this.dialog.open( AssetViewDialogComponent, {
+      id: 'asset-view-dialog',
+      data: { fileType: fileType, url: url, fileExtension: extension}
+    });
   }
 
 }

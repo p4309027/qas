@@ -1,61 +1,3 @@
-<!-- <div fxLayout="row" fxLayoutAlign="space-between none">
-  <div fxFlex="15%" fxFlex.xs="0%"></div>
-  <div fxFlex="70%" fxFlex.xs="100%">
-    <mat-card>
-      <mat-card-title>
-        <h3>
-          <mat-icon>grain &nbsp;</mat-icon>
-          Add a new company service
-        </h3>
-      </mat-card-title>
-      <form [formGroup]="servicesForm" fxLayout="column" (ngSubmit)="onSave()">
-        <mat-form-field>
-          <input matInput placeholder="Name" formControlName="name">
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="Description" formControlName="description">
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="Image name" formControlName="img">
-          <span matSuffix>.jpg </span>
-        </mat-form-field>
-        <mat-form-field>
-          <textarea matInput placeholder="Details" formControlName="info"></textarea>
-        </mat-form-field>
-        <mat-form-field style="margin-bottom:20px">
-          <textarea matInput placeholder="More details" formControlName="moreInfo"></textarea>
-        </mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="space-evenly center">
-          <button type="submit" *ngIf="!update" mat-raised-button color="accent">Save</button>
-          <button type="button" *ngIf="update" mat-raised-button color="accent" (click)="onUpdate()">Update</button>
-        </div>
-      </form>
-    </mat-card>
-    <br>
-    <br>
-    <mat-card>
-      <mat-card-title>
-        <h3>Active Services offered by Abfad:</h3>
-      </mat-card-title>
-      <mat-list>
-        <mat-spinner *ngIf="spinner" [diameter]="75"></mat-spinner>
-        <div *ngFor="let service of services">
-          <mat-list-item (click)="onSelect(service)">
-            <p mat-line>
-              <mat-icon mat-list-icon>grain</mat-icon>
-              {{service.name}}
-              <span fxHide.lt-md> : {{service.description}}</span>
-            </p>
-            <!-- <p fxFlex="50%" fxFlex.lt-md="100%"><mat-icon mat-list-icon>grain</mat-icon> {{service.name}}:</p>
-          <p fxHide.lt-md>{{service.description}}</p> --
-          </mat-list-item>
-          <mat-divider></mat-divider>
-        </div>
-      </mat-list>
-    </mat-card>
-  </div>
-  <div fxFlex="15%" fxFlex.xs="0%"></div>
-</div> -->
 <div *ngIf="spinnerAdmin" fxLayout="row" fxLayout.xs="column"
     fxLayoutAlign="space-evenly start" fxLayoutAlign.xs="space-evenly stretch"
     fxLayoutGap.xs="20px">
@@ -74,10 +16,12 @@
       <mat-form-field>
         <input matInput placeholder="Description" formControlName="description">
       </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Image name" formControlName="img">
-        <span matSuffix>.jpg </span>
+      <mat-form-field [color]="alert?'warn':'primary'" [ngStyle]="{'color': alert?'#f44336':'#3f51b5'}">
+        <input matInput placeholder="Select image"
+          [value]="selectedFileName"
+          (click)="imgInput.click()">
       </mat-form-field>
+      <input hidden type="file" #imgInput (change)="onUploadImg($event)"/>
       <mat-form-field>
         <textarea matInput placeholder="Details" formControlName="info"></textarea>
       </mat-form-field>
@@ -85,7 +29,9 @@
         <textarea matInput placeholder="More details" formControlName="moreInfo"></textarea>
       </mat-form-field>
       <div fxLayout="row" fxLayoutAlign="space-evenly center">
-        <button type="submit" *ngIf="!update" mat-raised-button color="accent">Save</button>
+        <button type="submit" *ngIf="!update && !savingData" mat-raised-button color="accent">Save</button>
+        <mat-spinner *ngIf="savingData" fxFlexAlign="center"
+          mode="indeterminate" [diameter]="59"></mat-spinner>
         <button type="button" *ngIf="update" mat-raised-button color="accent" (click)="onUpdate()">Update</button>
       </div>
     </form>
@@ -104,8 +50,6 @@
             {{service.name}}
             <span fxHide.lt-lg> : {{service.description}}</span>
           </p>
-          <!-- <p fxFlex="50%" fxFlex.lt-md="100%"><mat-icon mat-list-icon>grain</mat-icon> {{service.name}}:</p>
-        <p fxHide.lt-md>{{service.description}}</p> -->
         </mat-list-item>
         <mat-divider></mat-divider>
       </div>

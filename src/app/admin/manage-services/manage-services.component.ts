@@ -2,11 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AdminService } from '../admin.service';
 import { AppService } from '../../app.service';
-import { Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 import { LoginService } from '../../login/login.service';
-
+import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-manage-services',
@@ -21,37 +21,27 @@ export class ManageServicesComponent implements OnInit, OnDestroy {
   update = false;
   spinner = true;
   spinnerAdmin = false;
+  selectedFile: File;
+  selectedFileType = '';
+  selectedFileName = '';
+  alert = false;
+  task: AngularFireUploadTask;
+  downloadURL: Observable<string>;
+  savingData = false;
+
 
   constructor(
     private fb: FormBuilder,
     private appService: AppService,
     private adminService: AdminService,
-    private router: Router,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private storage: AngularFireStorage
   ) {
     this.createForms();
   }
 
 
   ngOnInit() {
-    // router guard alternative
-    // this.loginService.shareUserName
-    //   .takeUntil(this.ngUnsubscribe)
-    //   .subscribe(username => {
-    //     if (username) {
-    //       this.adminService.getUserProfile(username)
-    //         .takeUntil(this.ngUnsubscribe)
-    //         .subscribe( user => {
-    //           const role = user[0].payload.doc.data().role;
-    //           if (role !== 'admin') {
-    //             this.router.navigate(['**']);
-    //           } else {
-    //             this.spinnerAdmin = true;
-    //           }
-    //         });
-    //     }
-    //   });
-    // end alternative
     this.getServices();
   }
 
@@ -59,7 +49,7 @@ export class ManageServicesComponent implements OnInit, OnDestroy {
     this.servicesForm = this.fb.group({
       name: '',
       description: '',
-      img: '',
+      imgUrl: '',
       info: '',
       moreInfo: ''
     });
@@ -75,9 +65,47 @@ export class ManageServicesComponent implements OnInit, OnDestroy {
       });
   }
 
+  onUploadImg(event) {
+    if (event.target.files[0]) {
+      this.selectedFile = event.target.files[0];
+      this.selectedFileType = this.selectedFile.type.split('/')[0];
+      if (this.selectedFileType === 'image') {
+        this.alert = false;
+        this.selectedFileName = this.selectedFile.name;
+      } else {
+        this.alert = true;
+        this.selectedFileName = 'It should be an image file';
+      }
+    } else {
+      this.alert = true;
+      this.selectedFileType = '';
+      this.selectedFileName = 'Please select a file';
+    }
+
+  }
+
   onSave() {
-    this.adminService.saveServices(this.servicesForm.value)
-      .then(d => this.servicesForm.reset());
+    this.savingData = true;
+    const path = `service-assets/${new Date().getTime()}/${this.selectedFileName}`;
+    this.storage.upload(path, this.selectedFile )
+    .snapshotChanges()
+    .subscribe( snap => {
+      if (snap.bytesTransferred === snap.totalBytes) {
+        snap.task.then( d => {
+          if (d.downloadURL) {
+            this.servicesForm.get('imgUrl').patchValue(path);
+            this.adminService.saveServices(this.servicesForm.value)
+              .then( s => {
+                this.servicesForm.reset();
+                this.selectedFile = null;
+                this.selectedFileType = '';
+                this.selectedFileName = '';
+                this.savingData = false;
+              });
+          }
+        });
+      }
+    });
   }
 
   onSelect(service) {

@@ -14,8 +14,8 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <div fxLayout="row" fxLayout.lt-sm="column" class="panel-body">
-          <div fxFlex>
-            <img src="assets/company-services/{{service.img}}.jpg" alt="{{service.name}}" >
+          <div fxFlex *ngIf="(service.imgUrl | async) as url">
+            <img [src]="url" alt="{{service.name}}" (click)="openAssetViewDialog('image', url)">
           </div>
           <div fxFlex="60" class="info">
             <p>{{service.info}}</p>
