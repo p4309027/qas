@@ -7,7 +7,7 @@ import { LoginService } from './login/login.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  p4309027 = '&copy; 2018 S.Abidjanov All rights reserved';
+  p4309027 = '&copy; 2018 P4309027 All rights reserved';
 
   constructor( private loginService: LoginService) {}
 
